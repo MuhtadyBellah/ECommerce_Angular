@@ -1,17 +1,15 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { Auth, AuthResponse, UserData } from '../../models/auth.interface';
+import { DefaultResponse, Paged } from '../../models/default.interface';
 import {
-  Auth,
-  AuthResponse,
   changPasswordRequest,
   loginRequest,
   registerRequest,
   resetPasswordRequest,
   updateProfileRequest,
-  UserData,
-} from '../../models/auth.interface';
-import { DefaultResponse, Paged } from '../../models/default.interface';
+} from '../../models/request.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({

@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './core/auth/components/login/login.component';
 import { RegisterComponent } from './core/auth/components/register/register.component';
 import { authGuard } from './core/guards/auth-guard';
+import { CategoriesComponent } from './features/categories/categories.component';
 import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
-import { ProfileAddressesComponent } from './features/profile-addresses/profile-addresses.component';
-import { ProfileSettingsComponent } from './features/profile-settings/profile-settings.component';
+import { ProductComponent } from './features/product/product.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { PasswordLayoutComponent } from './layouts/password-layout/password-layout.component';
@@ -80,57 +80,76 @@ export const routes: Routes = [
       },
       {
         path: 'product',
-        component: NotFoundComponent,
+        component: ProductComponent,
         title: 'Product',
       },
       {
         path: 'product-search',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/product-search/product-search.component').then(
+            (m) => m.ProductSearchComponent,
+          ),
         title: 'Product Search',
       },
       {
         path: 'product-details',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/product-details/product-details.component').then(
+            (m) => m.ProductDetailsComponent,
+          ),
         title: 'Product Details',
       },
       {
         path: 'product-details/:id',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/product-details/product-details.component').then(
+            (m) => m.ProductDetailsComponent,
+          ),
         title: 'Product Details',
       },
       {
         path: 'brands',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/brands/brands.component').then((m) => m.BrandsComponent),
         title: 'Brands',
       },
       {
         path: 'categories',
-        component: NotFoundComponent,
+        component: CategoriesComponent,
         title: 'Categories',
       },
       {
-        path: 'card',
-        component: NotFoundComponent,
-        title: 'Card',
+        path: 'cart',
+        loadComponent: () => import('./features/cart/cart.component').then((m) => m.CartComponent),
+        title: 'Cart',
         canActivate: [authGuard],
       },
       {
         path: 'checkout',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/checkout/checkout.component').then((m) => m.CheckoutComponent),
         title: 'Checkout',
         canActivate: [authGuard],
       },
       {
         path: 'orders',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/orders/orders.component').then((m) => m.OrdersComponent),
         title: 'Orders',
         canActivate: [authGuard],
       },
       {
         path: 'wishlist',
-        component: NotFoundComponent,
+        loadComponent: () =>
+          import('./features/wishlist/wishlist.component').then((m) => m.WishlistComponent),
         title: 'Wishlist',
         canActivate: [authGuard],
+      },
+      {
+        path: 'concat',
+        loadComponent: () =>
+          import('./features/concat/concat.component').then((m) => m.ConcatComponent),
+        title: 'Concat',
       },
     ],
   },
@@ -147,12 +166,18 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        component: ProfileSettingsComponent,
+        loadComponent: () =>
+          import('./features/profile-settings/profile-settings.component').then(
+            (m) => m.ProfileSettingsComponent,
+          ),
         title: 'Settings',
       },
       {
         path: 'addresses',
-        component: ProfileAddressesComponent,
+        loadComponent: () =>
+          import('./features/profile-addresses/profile-addresses.component').then(
+            (m) => m.ProfileAddressesComponent,
+          ),
         title: 'Addresses',
       },
     ],

@@ -29,35 +29,3 @@ export interface UserData {
   bookmarksCount: number;
   mutualFollowersCount: number;
 }
-
-export interface registerRequest {
-  name: string;
-  email: string;
-  password: string;
-  rePassword: string;
-  phone: string;
-}
-
-export interface loginRequest {
-  email: string;
-  password: string;
-}
-
-export interface changPasswordRequest {
-  currentPassword: string;
-  password: string;
-  rePassword: string;
-}
-
-export interface resetPasswordRequest {
-  email: string;
-  newPassword: string;
-}
-
-export interface updateProfileRequest {
-  name: string;
-  email: string;
-  password: string;
-  rePassword: string;
-  phone: string;
-}

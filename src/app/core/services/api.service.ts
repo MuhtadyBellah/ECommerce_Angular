@@ -14,19 +14,19 @@ export class ApiService {
     return this.http.get<T>(`${this.baseUrl}${endpoint}`, { params });
   }
 
-  post<T>(endpoint: string, data?: object): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}${endpoint}`, data);
+  post<T>(endpoint: string, data?: object, params?: any): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}${endpoint}`, data, { params });
   }
 
-  put<T>(endpoint: string, data?: object): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}${endpoint}`, data);
+  put<T>(endpoint: string, data?: object, params?: any): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}${endpoint}`, data, { params });
   }
 
-  patch<T>(endpoint: string, data?: object): Observable<T> {
-    return this.http.patch<T>(`${this.baseUrl}${endpoint}`, data);
+  patch<T>(endpoint: string, data?: object, params?: any): Observable<T> {
+    return this.http.patch<T>(`${this.baseUrl}${endpoint}`, data, { params });
   }
 
-  delete<T>(endpoint: string): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}${endpoint}`);
+  delete<T>(endpoint: string, params?: any): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, { params });
   }
 }
