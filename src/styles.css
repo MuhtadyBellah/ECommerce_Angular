@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+@import 'flowbite/src/themes/default';
+@import '@fortawesome/fontawesome-free/css/all.css';
+@plugin "flowbite/plugin";
+@import '@ctrl/ngx-emoji-mart/picker';
+
+/* =========================
+   Base Theme (Light forced)
+========================= */
+emoji-mart {
+  /* force light */
+  color-scheme: light;
+
+  /* colors */
+  --background-rgb: 255, 255, 255;
+  --color-text: #111827;
+  --color-border: #e5e7eb;
+  --color-border-over: #d1d5db;
+  --color-primary: #3b82f6;
+  --color-secondary: #6b7280;
+
+  /* UI */
+  font-family: 'Inter', sans-serif;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+
+  /* size */
+  width: 320px;
+  max-width: 100%;
+}
+
+emoji-mart {
+  background-color: #ffffff !important;
+}
+
+emoji-mart .emoji-mart {
+  background-color: #ffffff !important;
+}
+
+/* background */
+emoji-mart {
+  background-color: #fff;
+}
+
+/* text */
+emoji-mart,
+emoji-mart input {
+  color: #111827;
+}
+
+/* =========================
+   Dark mode isolation
+========================= */
+.dark emoji-mart {
+  color-scheme: light;
+
+  --background-rgb: 255, 255, 255;
+  --color-text: #111827;
+}
+
+/* =========================
+   Icons تحسين
+========================= */
+emoji-mart .category-icons svg {
+  fill: #6b7280;
+  transition: 0.2s;
+}
+
+emoji-mart .category-icons button:hover svg {
+  fill: #111827;
+}
+
+/* =========================
+   Search input
+========================= */
+emoji-mart input {
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 6px 8px;
+}
+
+/* =========================
+   Scroll area
+========================= */
+emoji-mart .emoji-mart-scroll {
+  max-height: 260px;
+}
+
+/* =========================
+   Sizes (Reusable)
+========================= */
+
+/* small (reply) */
+.sm emoji-mart {
+  width: 240px;
+}
+
+.sm emoji-mart .emoji-mart-scroll {
+  max-height: 180px;
+}
+
+.sm emoji-mart .emoji-mart-emoji {
+  transform: scale(0.9);
+}
+
+/* medium */
+.md emoji-mart {
+  width: 300px;
+}
+
+/* large */
+.lg emoji-mart {
+  width: 360px;
+}
+
+/* =========================
+   Optional: smoother UI
+========================= */
+emoji-mart {
+  transition: box-shadow 0.2s ease;
+}
+
+emoji-mart:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Optimized CSS Variables */
+:root {
+  /* Light Mode Colors */
+  --color-main: #16a34a;
+  --color-secondary: #101828;
+  --color-danger: #fb2c36;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+  /* gradient  - from #00c758e6  to  #05df7280 */
+}
+
+/* Dark Mode Theme */
+.dark {
+  --color-main: #ffd680;
+  --color-secondary: #1a1a1a;
+  --color-background: #000000;
+  --color-surface: #1a1a1a;
+  --color-text: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+  --color-border: #374151;
+  --color-accent: #60a5fa;
+  --color-accent-hover: #3b82f6;
+}
+
+/* Global Styles */
+body {
+  background-color: var(--color-secondary);
+  color: var(--color-main);
+  font-family: 'SN Pro', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion for better performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@util container {
+  margin-inline: auto;
+}
+
+.item {
+  background-image:
+    linear-gradient(to right, #00c758e6, #05df7280), url(/assets/home-slider-1.d79601a8.png);
+  background-size: cover;
+  background-position: center;
+}

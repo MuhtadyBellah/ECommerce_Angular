@@ -1,0 +1,10 @@
+// dev environment
+export const environment = {
+  baseURL: 'https://ecommerce.routemisr.com/api/v1/',
+  requestTimeout: 3000,
+  cacheTTL: 5 * 60 * 1000,
+  userToken: 'userToken',
+  userData: 'userData',
+  PASSWORD_PATTERN: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/,
+  PHONE_EG: /^01[0125]\d{8}$/,
+};
