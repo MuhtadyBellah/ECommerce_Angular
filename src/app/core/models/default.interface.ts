@@ -3,7 +3,9 @@ export interface Default {}
 export interface DefaultResponse {
   success: true;
   message: string;
+  results: number;
   data: any;
+  decoded: string;
 }
 
 export interface Paged<T> extends DefaultResponse {
