@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, signal } from '@angular/core';
-import { RouterLinkWithHref, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { NavbarComponent } from './features/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgxSpinnerComponent, RouterLinkWithHref, NavbarComponent],
+  imports: [RouterOutlet, NgxSpinnerComponent, NavbarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -1,12 +1,11 @@
-import { NgClass } from '@angular/common';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgClass],
+  imports: [RouterOutlet],
   templateUrl: './auth-layout.component.html',
   styleUrl: './auth-layout.component.css',
 })

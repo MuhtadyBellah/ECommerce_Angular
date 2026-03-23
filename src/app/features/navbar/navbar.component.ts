@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CategoryData } from '../../core/models/category.interface';
 import { AuthService } from '../../core/services/auth/auth.service';
@@ -9,7 +9,7 @@ import { CategoryService } from '../../core/services/category/category.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

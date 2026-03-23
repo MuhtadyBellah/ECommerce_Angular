@@ -1,0 +1,75 @@
+<div class="relative">
+  <div class="relative w-full overflow-hidden rounded-lg h-100">
+    <!-- Slides -->
+    <div class="h-full relative">
+      @for (slide of slides; track $index) {
+        <div
+          class="absolute inset-0 transition-all duration-700 ease-in-out"
+          [class.opacity-0]="currentIndex() !== $index"
+          [class.opacity-100]="currentIndex() === $index"
+        >
+          <div
+            class="h-full flex items-center"
+            [style.backgroundImage]="'url(' + slide.image + ')'"
+            style="background-size: cover; background-position: center"
+          >
+            <div
+              class="w-full h-full bg-linear-to-r from-green-500/90 to-green-400/50 flex items-center"
+            >
+              <div class="container text-white">
+                <h2 class="text-3xl font-bold mb-4 max-w-md">
+                  {{ slide.title }}
+                </h2>
+                <p>{{ slide.desc }}</p>
+
+                <div class="mt-4">
+                  <a
+                    class="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold mr-2"
+                    [routerLink]="slide.primaryLink"
+                  >
+                    {{ slide.primaryText }}
+                  </a>
+
+                  <a
+                    class="border border-white text-white px-6 py-2 rounded-lg"
+                    [routerLink]="slide.secondaryLink"
+                  >
+                    {{ slide.secondaryText }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Indicators -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      @for (slide of slides; track $index) {
+        <button
+          (click)="goToSlide($index)"
+          class="w-3 h-3 rounded-full"
+          [class.bg-white]="currentIndex() === $index"
+          [class.bg-white/50]="currentIndex() !== $index"
+        ></button>
+      }
+    </div>
+
+    <!-- Prev -->
+    <button
+      (click)="prev()"
+      class="absolute left-0 top-0 h-full px-4 flex items-center text-white text-2xl"
+    >
+      ❮
+    </button>
+
+    <!-- Next -->
+    <button
+      (click)="next()"
+      class="absolute right-0 top-0 h-full px-4 flex items-center text-white text-2xl"
+    >
+      ❯
+    </button>
+  </div>
+</div>

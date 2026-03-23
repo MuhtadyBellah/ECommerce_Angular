@@ -8,80 +8,47 @@
    Base Theme (Light forced)
 ========================= */
 emoji-mart {
-  /* force light */
+  /* Force light mode */
   color-scheme: light;
 
-  /* colors */
-  ---color-primary: var(--color-main);
+  /* Colors */
+  --color-primary: var(--color-primary);
   --color-secondary: var(--color-text-secondary);
-
-  --background-rgb: 255, 255, 255;
-  --color-text: var(--color-text);
   --color-border: var(--color-border);
+  --color-text: var(--color-text);
+  --background-rgb: 255, 255, 255;
 
-  background: var(--color-surface);
-  color: var(--color-text);
+  /* Base styles */
+  background-color: #ffffff;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
 
+  /* Size */
+  width: 320px;
+  max-width: 100%;
+
+  /* Shape */
   border-radius: 16px;
   border: 1px solid var(--color-border);
 
+  /* Shadow */
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 2px 4px rgba(0, 0, 0, 0.04);
 
-  /* UI */
-  font-family: 'Inter', sans-serif;
-
-  /* size */
-  width: 320px;
-  max-width: 100%;
+  /* Animation */
+  transition: box-shadow 0.2s ease;
 }
 
-emoji-mart {
-  background-color: #ffffff !important;
+emoji-mart:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-emoji-mart .emoji-mart {
-  background-color: #ffffff !important;
-}
-
-/* background */
-emoji-mart {
-  background-color: #fff;
-}
-
-/* text */
-emoji-mart,
+/* =========================
+   Input
+========================= */
 emoji-mart input {
   color: #111827;
-}
-
-/* =========================
-   Dark mode isolation
-========================= */
-.dark emoji-mart {
-  color-scheme: light;
-
-  --background-rgb: 255, 255, 255;
-  --color-text: #111827;
-}
-
-/* =========================
-   Icons تحسين
-========================= */
-emoji-mart .category-icons svg {
-  fill: #6b7280;
-  transition: 0.2s;
-}
-
-emoji-mart .category-icons button:hover svg {
-  fill: #111827;
-}
-
-/* =========================
-   Search input
-========================= */
-emoji-mart input {
   background: #f9fafb;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
@@ -89,17 +56,29 @@ emoji-mart input {
 }
 
 /* =========================
-   Scroll area
+   Category Icons
+========================= */
+emoji-mart .category-icons svg {
+  fill: #6b7280;
+  transition: fill 0.2s;
+}
+
+emoji-mart .category-icons button:hover svg {
+  fill: #111827;
+}
+
+/* =========================
+   Scroll Area
 ========================= */
 emoji-mart .emoji-mart-scroll {
   max-height: 260px;
 }
 
 /* =========================
-   Sizes (Reusable)
+   Size Variants
 ========================= */
 
-/* small (reply) */
+/* Small (reply) */
 .sm emoji-mart {
   width: 240px;
 }
@@ -112,31 +91,20 @@ emoji-mart .emoji-mart-scroll {
   transform: scale(0.9);
 }
 
-/* medium */
+/* Medium */
 .md emoji-mart {
   width: 300px;
 }
 
-/* large */
+/* Large */
 .lg emoji-mart {
   width: 360px;
-}
-
-/* =========================
-   Optional: smoother UI
-========================= */
-emoji-mart {
-  transition: box-shadow 0.2s ease;
-}
-
-emoji-mart:hover {
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 /* Optimized CSS Variables */
 :root {
   /* Light Mode Colors */
-  --color-main: #16a34a;
+  --color-primary: #16a34a;
   --color-secondary: #101828;
   --color-danger: #fb2c36;
   --color-background: #ffffff;
@@ -148,26 +116,13 @@ emoji-mart:hover {
   --color-accent-hover: #2563eb;
 
   /* gradient */
-  --gradient-main: linear-gradient(to right, #00c758e6, #05df7280);
-}
-
-/* Dark Mode Theme */
-.dark {
-  --color-main: #ffd680;
-  --color-secondary: #1a1a1a;
-  --color-background: #000000;
-  --color-surface: #1a1a1a;
-  --color-text: #f3f4f6;
-  --color-text-secondary: #9ca3af;
-  --color-border: #374151;
-  --color-accent: #60a5fa;
-  --color-accent-hover: #3b82f6;
+  --gradient-primary: linear-gradient(to right, #00c758e6, #05df7280);
 }
 
 /* Global Styles */
 body {
-  background-color: var(--color-secondary);
-  color: var(--color-main);
+  background-color: var(--color-background);
+  color: var(--color-primary);
   font-family: 'SN Pro', sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -200,7 +155,7 @@ html {
 
 .item {
   background-image:
-    linear-gradient(to right, #00c758e6, #05df7280), url(/assets/home-slider-1.d79601a8.png);
+    linear-gradient(to right, #00c758e6, #05df7280), url(/images/images/home-slider-1.png);
   background-size: cover;
   background-position: center;
 }

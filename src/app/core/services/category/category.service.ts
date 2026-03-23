@@ -14,7 +14,6 @@ export class CategoryService {
     return this.api.get<Paged<CategoryResponse>>('categories', {
       page: 1,
       limit: 10,
-      keyword: '',
       ...params,
     });
   }
