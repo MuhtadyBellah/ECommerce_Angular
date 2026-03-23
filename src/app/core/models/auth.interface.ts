@@ -17,15 +17,7 @@ export interface UserData {
   createdAt: string;
 
   photo: string;
-  cover: string;
   dateOfBirth: string;
   gender: string;
-  bookmarks: [];
-  followers: [];
-  following: [];
   passwordChangedAt: string;
-  followersCount: number;
-  followingCount: number;
-  bookmarksCount: number;
-  mutualFollowersCount: number;
 }

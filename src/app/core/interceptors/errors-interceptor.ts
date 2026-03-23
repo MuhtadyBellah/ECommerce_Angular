@@ -19,7 +19,7 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
         errorHandler.handleSuccess(response);
       }
 
-      if (req.url.includes('signin') || req.url.includes('change-password')) {
+      if (req.url.includes('signin') || req.url.includes('changeMyPassword')) {
         const data = response?.body?.data;
 
         if (data) {
@@ -37,7 +37,7 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
         }
       }
 
-      if (req.url.includes('signup')) {
+      if (req.url.includes('signup') || req.url.includes('resetPassword')) {
         router.navigate(['/auth/login']);
         return;
       }

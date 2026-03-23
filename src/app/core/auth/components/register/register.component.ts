@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -9,15 +10,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
-import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
+import { PasswordStrengthComponent } from '../../../../shared/components/password-strength/password-strength.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import { registerRequest } from './../../../models/request.interface';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, AlertComponent, RouterLink, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    AlertComponent,
+    RouterLink,
+    CommonModule,
+    PasswordStrengthComponent,
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -59,7 +67,6 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuild.group(
       {
         name: ['', Validators.required],
-        username: [''],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -70,10 +77,7 @@ export class RegisterComponent implements OnInit {
           ],
         ],
         rePassword: ['', Validators.required],
-        gender: [''],
-        dateOfBirth: [''],
         phone: ['', [Validators.pattern(environment.PHONE_EG)]],
-        country: [''],
         terms: [false, Validators.requiredTrue],
       },
       { validators: this.passwordMatchValidator },
@@ -125,22 +129,17 @@ export class RegisterComponent implements OnInit {
 
     this.isLoading.set(true);
 
-    const email = this.registerForm.get('email')?.value;
-    this.registerForm.get('username')?.setValue(email.split('@')[0] || '');
-
-    const { phone, country, terms, ...registerData } = this.registerForm.value;
+    const registerRequest: registerRequest = this.registerForm.value;
 
     this.authService
-      .postRegister(registerData)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .postRegister(registerRequest)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isLoading.set(false)),
+      )
       .subscribe({
-        next: (response) => {
-          this.isLoading.set(false);
-        },
-        error: (error) => {
-          this.isLoading.set(false);
-          console.error('Registration failed:', error);
-        },
+        next: () => {},
+        error: () => {},
       });
   }
 

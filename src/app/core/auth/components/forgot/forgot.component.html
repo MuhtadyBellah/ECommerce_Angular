@@ -1,1 +1,161 @@
-<p>forgot works!</p>
+<div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
+  <div class="text-center mb-8">
+    <div class="flex items-center justify-center mb-4">
+      <span class="text-3xl font-bold text-primary-600"
+        >Fresh<span class="text-gray-800">Cart</span></span
+      >
+    </div>
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">Forgot Password?</h1>
+    <p class="text-gray-600">No worries, we'll send you a reset code</p>
+  </div>
+  <div class="flex items-center justify-center mb-8">
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white ring-4 ring-primary-100"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="envelope"
+          class="svg-inline--fa fa-envelope text-xs"
+          role="img"
+          viewBox="0 0 512 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M48 64c-26.5 0-48 21.5-48 48 0 15.1 7.1 29.3 19.2 38.4l208 156c17.1 12.8 40.5 12.8 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48L48 64zM0 196L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-188-198.4 148.8c-34.1 25.6-81.1 25.6-115.2 0L0 196z"
+          ></path>
+        </svg>
+      </div>
+      <div class="w-16 h-0.5 mx-2 transition-all duration-300 bg-gray-200"></div>
+    </div>
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-gray-100 text-gray-400"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="key"
+          class="svg-inline--fa fa-key text-xs"
+          role="img"
+          viewBox="0 0 512 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0 160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17l0 80c0 13.3 10.7 24 24 24l80 0c13.3 0 24-10.7 24-24l0-40 40 0c13.3 0 24-10.7 24-24l0-40 40 0c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"
+          ></path>
+        </svg>
+      </div>
+      <div class="w-16 h-0.5 mx-2 transition-all duration-300 bg-gray-200"></div>
+    </div>
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-gray-100 text-gray-400"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="lock"
+          class="svg-inline--fa fa-lock text-xs"
+          role="img"
+          viewBox="0 0 384 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M128 96l0 64 128 0 0-64c0-35.3-28.7-64-64-64s-64 28.7-64 64zM64 160l0-64C64 25.3 121.3-32 192-32S320 25.3 320 96l0 64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <form class="space-y-6" [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
+    <!-- Email Field -->
+    <div class="flex items-start gap-4 mb-6">
+      <svg
+        class="w-6 h-6 text-gray-400 shrink-0 mt-3"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        ></path>
+      </svg>
+      <div class="relative z-0 w-full group">
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          aria-label="Email Address"
+          [ngClass]="
+            hasFieldError('email')
+              ? 'border-red-500 focus:border-red-600'
+              : 'border-gray-300 focus:border-blue-600'
+          "
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 peer"
+          placeholder=" "
+        />
+        <label
+          for="email"
+          class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left left-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          [ngClass]="
+            hasFieldError('email')
+              ? 'text-red-500 peer-focus:text-red-600'
+              : 'text-gray-500 peer-focus:text-blue-600'
+          "
+        >
+          Email Address
+        </label>
+        @if (getFieldError('email')) {
+          <p class="mt-1 text-xs text-red-500">{{ getFieldError('email') }}</p>
+        }
+      </div>
+    </div>
+    <button
+      [disabled]="isSubmitDisabled()"
+      type="submit"
+      class="w-full bg-primary-600 text-white py-3 px-4 rounded-xl hover:bg-primary-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      @if (isLoading()) {
+        <i class="animate-spin fas fa-spinner"></i>
+        <span>Sending Code...</span>
+      } @else {
+        Send Reset Code
+      }
+    </button>
+    <div class="text-center">
+      <a
+        class="inline-flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
+        routerLink="/auth/login"
+        ><svg
+          data-prefix="fas"
+          data-icon="arrow-left"
+          class="svg-inline--fa fa-arrow-left text-xs"
+          role="img"
+          viewBox="0 0 512 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 105.4-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+          ></path></svg
+        >Back to Sign In</a
+      >
+    </div>
+  </form>
+  <div class="text-center mt-8 pt-6 border-t border-gray-100">
+    <p class="text-gray-600">
+      Remember your password?
+      <a
+        class="text-primary-600 hover:text-primary-700 font-semibold transition-colors"
+        href="/login"
+        >Sign In</a
+      >
+    </p>
+  </div>
+</div>

@@ -3,8 +3,11 @@ import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angula
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
+import { environment } from '../../../../../environments/environment.development';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
 import { AuthService } from '../../../services/auth/auth.service';
+import { loginRequest } from './../../../models/request.interface';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuild.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', Validators.required, Validators.pattern(environment.PASSWORD_PATTERN)],
       rememberMe: [false],
     });
   }
@@ -42,17 +45,16 @@ export class LoginComponent implements OnInit {
     this.errorMessage.set('');
     this.isLoading.set(true);
 
-    const { email, password } = this.loginForm.value;
-
+    const loginRequest: loginRequest = this.loginForm.value;
     this.authService
-      .postLogin({ email, password })
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .postLogin(loginRequest)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isLoading.set(false)),
+      )
       .subscribe({
-        next: () => {
-          this.isLoading.set(false);
-        },
+        next: () => {},
         error: (error) => {
-          this.isLoading.set(false);
           if (error.status === 400) {
             this.errorMessage.set('Incorrect email or password');
           } else if (error.status === 401) {

@@ -1,1 +1,188 @@
-<p>confirm works!</p>
+<div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
+  <div class="text-center mb-8">
+    <div class="flex items-center justify-center mb-4">
+      <span class="text-3xl font-bold text-primary-600"
+        >Fresh<span class="text-gray-800">Cart</span></span
+      >
+    </div>
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">Create New Password</h1>
+    <p class="text-gray-600">Your new password must be different from previous passwords</p>
+  </div>
+  <div class="flex items-center justify-center mb-8">
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="check"
+          class="svg-inline--fa fa-check"
+          role="img"
+          viewBox="0 0 448 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"
+          ></path>
+        </svg>
+      </div>
+      <div class="w-16 h-0.5 mx-2 transition-all duration-300 bg-primary-600"></div>
+    </div>
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="check"
+          class="svg-inline--fa fa-check"
+          role="img"
+          viewBox="0 0 448 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M434.8 70.1c14.3 10.4 17.5 30.4 7.1 44.7l-256 352c-5.5 7.6-14 12.3-23.4 13.1s-18.5-2.7-25.1-9.3l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l101.5 101.5 234-321.7c10.4-14.3 30.4-17.5 44.7-7.1z"
+          ></path>
+        </svg>
+      </div>
+      <div class="w-16 h-0.5 mx-2 transition-all duration-300 bg-primary-600"></div>
+    </div>
+    <div class="flex items-center">
+      <div
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white ring-4 ring-primary-100"
+      >
+        <svg
+          data-prefix="fas"
+          data-icon="lock"
+          class="svg-inline--fa fa-lock text-xs"
+          role="img"
+          viewBox="0 0 384 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M128 96l0 64 128 0 0-64c0-35.3-28.7-64-64-64s-64 28.7-64 64zM64 160l0-64C64 25.3 121.3-32 192-32S320 25.3 320 96l0 64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <form class="space-y-6" [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
+    <!-- Email Field -->
+    <div class="flex items-start gap-4 mb-6">
+      <svg
+        class="w-6 h-6 text-gray-400 shrink-0 mt-3"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        ></path>
+      </svg>
+      <div class="relative z-0 w-full group">
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          aria-label="Email Address"
+          [ngClass]="
+            hasFieldError('email')
+              ? 'border-red-500 focus:border-red-600'
+              : 'border-gray-300 focus:border-blue-600'
+          "
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 peer"
+          placeholder=" "
+        />
+        <label
+          for="email"
+          class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left left-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          [ngClass]="
+            hasFieldError('email')
+              ? 'text-red-500 peer-focus:text-red-600'
+              : 'text-gray-500 peer-focus:text-blue-600'
+          "
+        >
+          Email Address
+        </label>
+        @if (getFieldError('email')) {
+          <p class="mt-1 text-xs text-red-500">{{ getFieldError('email') }}</p>
+        }
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="flex items-start gap-4 mb-6">
+      <svg
+        class="w-6 h-6 text-gray-400 shrink-0 mt-3"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+        ></path>
+      </svg>
+      <div class="relative z-0 w-full group">
+        <input
+          [type]="showPassword() ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          aria-label="Password"
+          [ngClass]="
+            hasFieldError('password')
+              ? 'border-red-500 focus:border-red-600'
+              : 'border-gray-300 focus:border-blue-600'
+          "
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 peer"
+          placeholder=" "
+        />
+        <label
+          for="password"
+          class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left left-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          [ngClass]="
+            hasFieldError('password')
+              ? 'text-red-500 peer-focus:text-red-600'
+              : 'text-gray-500 peer-focus:text-blue-600'
+          "
+        >
+          Password
+        </label>
+
+        <!-- Password Visibility Toggle -->
+        <button
+          type="button"
+          aria-label="Toggle password visibility"
+          class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-blue-600 z-10 focus:outline-none transition-colors"
+          (click)="togglePasswordVisibility()"
+        >
+          <i class="fas" [ngClass]="showPassword() ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+        <app-password-strength [password]="confirmForm.get('newPassword')?.value ?? ''" />
+        @if (getFieldError('newPassword')) {
+          <p class="mt-1 text-xs text-red-500">{{ getFieldError('newPassword') }}</p>
+        }
+      </div>
+    </div>
+    <button
+      [disabled]="isSubmitDisabled()"
+      type="submit"
+      class="w-full bg-primary-600 text-white py-3 px-4 rounded-xl hover:bg-primary-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      @if (isLoading()) {
+        <span>Resetting Password...</span>
+        <i class="animate-spin fas fa-spinner"></i>
+      } @else {
+        Reset Password
+      }
+    </button>
+  </form>
+</div>

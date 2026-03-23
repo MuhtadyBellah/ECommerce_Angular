@@ -74,16 +74,16 @@ export class AuthService {
     return this.api.post<DefaultResponse>('auth/verifyResetCode', { code });
   }
 
+  putResetPassword(data: resetPasswordRequest): Observable<DefaultResponse> {
+    return this.api.put<DefaultResponse>('auth/resetPassword', data);
+  }
+
   logout(): void {
     this.clearUserData();
   }
 
   putChangePassword(data: changPasswordRequest): Observable<AuthResponse> {
     return this.api.put<AuthResponse>('users/changeMyPassword', data);
-  }
-
-  putResetPassword(data: resetPasswordRequest): Observable<AuthResponse> {
-    return this.api.put<AuthResponse>('auth/resetPassword', data);
   }
 
   putProfileData(data: updateProfileRequest): Observable<AuthResponse> {
