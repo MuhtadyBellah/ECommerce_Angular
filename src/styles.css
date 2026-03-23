@@ -12,21 +12,25 @@ emoji-mart {
   color-scheme: light;
 
   /* colors */
-  --background-rgb: 255, 255, 255;
-  --color-text: #111827;
-  --color-border: #e5e7eb;
-  --color-border-over: #d1d5db;
-  --color-primary: #3b82f6;
-  --color-secondary: #6b7280;
+  ---color-primary: var(--color-main);
+  --color-secondary: var(--color-text-secondary);
 
-  /* UI */
-  font-family: 'Inter', sans-serif;
+  --background-rgb: 255, 255, 255;
+  --color-text: var(--color-text);
+  --color-border: var(--color-border);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
+  border: 1px solid var(--color-border);
+
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 2px 4px rgba(0, 0, 0, 0.04);
+
+  /* UI */
+  font-family: 'Inter', sans-serif;
 
   /* size */
   width: 320px;
@@ -142,7 +146,9 @@ emoji-mart:hover {
   --color-border: #e5e7eb;
   --color-accent: #3b82f6;
   --color-accent-hover: #2563eb;
-  /* gradient  - from #00c758e6  to  #05df7280 */
+
+  /* gradient */
+  --gradient-main: linear-gradient(to right, #00c758e6, #05df7280);
 }
 
 /* Dark Mode Theme */

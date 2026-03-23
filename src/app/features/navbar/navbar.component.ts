@@ -1,71 +1,54 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
-import { interval } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CategoryData } from '../../core/models/category.interface';
 import { AuthService } from '../../core/services/auth/auth.service';
-import { NotificationsService } from '../../core/services/notifications/notifications.service';
+import { CategoryService } from '../../core/services/category/category.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
-  private readonly notificationsService = inject(NotificationsService);
+  private readonly categoryService = inject(CategoryService);
   private readonly authService = inject(AuthService);
 
   readonly currentUser = this.authService.currentUser;
+  readonly isAuthinticated = this.authService.isAuthenticated;
 
-  readonly notificationCount = signal<number>(0);
-  readonly isProfileDropdownOpen = signal(false);
+  readonly categories = signal<CategoryData[] | null>(null);
   readonly isMobileMenuOpen = signal(false);
 
   ngOnInit(): void {
-    this.loadNotificationCount();
-
-    interval(300000)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.loadNotificationCount());
+    this.loadCategories();
   }
 
-  private loadNotificationCount(): void {
-    this.notificationsService
-      .getUnreadCount()
+  private loadCategories(): void {
+    this.categoryService
+      .getAllCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
-          this.notificationCount.set(response.data?.unreadCount || 0);
+          this.categories.set(response.data || null);
         },
         error: () => {
-          this.notificationCount.set(0);
+          this.categories.set(null);
         },
       });
   }
 
-  toggleProfileDropdown(): void {
-    this.isProfileDropdownOpen.update((v) => !v);
-    if (this.isMobileMenuOpen()) {
-      this.isMobileMenuOpen.set(false);
-    }
-  }
-
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen.update((v) => !v);
-    if (this.isProfileDropdownOpen()) {
-      this.isProfileDropdownOpen.set(false);
-    }
+  viewMobile() {
+    this.isMobileMenuOpen.set(true);
   }
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
-  }
-
-  closeDropdown(): void {
-    this.isProfileDropdownOpen.set(false);
   }
 }
