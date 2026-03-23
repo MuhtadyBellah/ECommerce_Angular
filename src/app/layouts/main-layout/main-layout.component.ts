@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../../features/navbar/navbar.component';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayoutComponent {}
