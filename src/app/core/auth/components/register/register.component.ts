@@ -15,7 +15,6 @@ import { environment } from '../../../../../environments/environment.development
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
 import { PasswordStrengthComponent } from '../../../../shared/components/password-strength/password-strength.component';
 import { AuthService } from '../../../services/auth/auth.service';
-import { registerRequest } from './../../../models/request.interface';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +39,7 @@ export class RegisterComponent implements OnInit {
   readonly showPassword = signal(false);
   readonly showRePassword = signal(false);
 
-  readonly isSubmitDisabled = computed(() => this.registerForm?.invalid || this.isLoading());
+  readonly isSubmitDisabled = computed(() => !this.registerForm!.invalid || this.isLoading());
 
   private readonly validationMessages: Record<string, Record<string, string>> = {
     name: { required: 'Full name is required.' },
@@ -66,7 +65,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.formBuild.group(
       {
-        name: ['', Validators.required],
+        name: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: [
           '',
@@ -76,9 +75,9 @@ export class RegisterComponent implements OnInit {
             Validators.pattern(environment.PASSWORD_PATTERN),
           ],
         ],
-        rePassword: ['', Validators.required],
+        rePassword: ['', [Validators.required]],
         phone: ['', [Validators.pattern(environment.PHONE_EG)]],
-        terms: [false, Validators.requiredTrue],
+        terms: [false, [Validators.requiredTrue]],
       },
       { validators: this.passwordMatchValidator },
     );
@@ -129,7 +128,7 @@ export class RegisterComponent implements OnInit {
 
     this.isLoading.set(true);
 
-    const registerRequest: registerRequest = this.registerForm.value;
+    const { terms, ...registerRequest } = this.registerForm.value;
 
     this.authService
       .postRegister(registerRequest)

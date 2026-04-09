@@ -79,7 +79,7 @@ export const routes: Routes = [
         title: 'Home',
       },
       {
-        path: 'product',
+        path: 'products',
         component: ProductComponent,
         title: 'Product',
       },
@@ -90,14 +90,6 @@ export const routes: Routes = [
             (m) => m.ProductSearchComponent,
           ),
         title: 'Product Search',
-      },
-      {
-        path: 'product-details',
-        loadComponent: () =>
-          import('./features/product-details/product-details.component').then(
-            (m) => m.ProductDetailsComponent,
-          ),
-        title: 'Product Details',
       },
       {
         path: 'product-details/:id',
@@ -119,13 +111,19 @@ export const routes: Routes = [
         title: 'Categories',
       },
       {
+        path: 'contact',
+        loadComponent: () =>
+          import('./features/concat/concat.component').then((m) => m.ConcatComponent),
+        title: 'Contcat',
+      },
+      {
         path: 'cart',
         loadComponent: () => import('./features/cart/cart.component').then((m) => m.CartComponent),
         title: 'Cart',
         canActivate: [authGuard],
       },
       {
-        path: 'checkout',
+        path: 'checkout/:id',
         loadComponent: () =>
           import('./features/checkout/checkout.component').then((m) => m.CheckoutComponent),
         title: 'Checkout',
@@ -144,12 +142,6 @@ export const routes: Routes = [
           import('./features/wishlist/wishlist.component').then((m) => m.WishlistComponent),
         title: 'Wishlist',
         canActivate: [authGuard],
-      },
-      {
-        path: 'concat',
-        loadComponent: () =>
-          import('./features/concat/concat.component').then((m) => m.ConcatComponent),
-        title: 'Concat',
       },
     ],
   },

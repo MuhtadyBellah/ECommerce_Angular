@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse, Paged } from '../../models/default.interface';
+import { SubCategory } from '../../models/sub-category.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -9,18 +9,15 @@ import { ApiService } from '../api.service';
 export class SubCategoryService {
   private readonly api = inject(ApiService);
 
-  getAllSubCategories(params?: any): Observable<Paged<DefaultResponse>> {
-    return this.api.get<Paged<DefaultResponse>>('subcategories', { limit: 10, ...params });
+  getAllSubCategories(params?: any): Observable<SubCategory> {
+    return this.api.get<SubCategory>('subcategories', { limit: 10, ...params });
   }
 
-  getSubCategory(subcategoryId: string, params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`subcategories/${subcategoryId}`, params);
+  getSubCategory(subcategoryId: string, params?: any): Observable<SubCategory> {
+    return this.api.get<SubCategory>(`subcategories/${subcategoryId}`, params);
   }
 
-  getSubCategoriesMainCategory(
-    categoryId: string,
-    params?: any,
-  ): Observable<Paged<DefaultResponse>> {
-    return this.api.get<Paged<DefaultResponse>>(`categories/${categoryId}/subcategories`, params);
+  getSubCategoriesMainCategory(categoryId: string, params?: any): Observable<SubCategory> {
+    return this.api.get<SubCategory>(`categories/${categoryId}/subcategories`, params);
   }
 }

@@ -29,7 +29,10 @@ export class ErrorHandlerService {
     const errorDetails = this.parseError(error);
 
     // Show toast notification to user
-    this.toastr.error(errorDetails.message, 'Social App');
+    this.toastr.error(errorDetails.message, 'FreshCart', {
+      progressBar: true,
+      timeOut: 2500,
+    });
 
     // Log detailed error for debugging
     console.error('API Error:', {
@@ -65,7 +68,6 @@ export class ErrorHandlerService {
 
       case 401:
         message = error.error?.message || 'Session expired. Please log in again.';
-        this.clearUserToken();
         break;
 
       case 403:

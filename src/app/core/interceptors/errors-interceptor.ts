@@ -18,9 +18,8 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
       if (errorHandler.shouldShowSuccessNotification(req.url, req.method)) {
         errorHandler.handleSuccess(response);
       }
-
       if (req.url.includes('signin') || req.url.includes('changeMyPassword')) {
-        const data = response?.body?.data;
+        const data = response?.body;
 
         if (data) {
           if (req.url.includes('signin')) {

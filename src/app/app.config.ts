@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import {
   provideRouter,
   withHashLocation,
@@ -10,12 +14,12 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
 import { errorsInterceptor } from './core/interceptors/errors-interceptor';
 import { headersInterceptor } from './core/interceptors/headers-interceptor';
 import { loadingInterceptor } from './core/interceptors/loading-interceptor';
-//search animate.enter | animate.leave
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -46,6 +50,9 @@ export const appConfig: ApplicationConfig = {
       lang: 'en',
     }),
     provideToastr(),
+    importProvidersFrom(NgxSpinnerModule),
+    //search animate.enter | animate.leave
     provideAnimations(),
+    // provideClientHydration(withEventReplay()),
   ],
 };

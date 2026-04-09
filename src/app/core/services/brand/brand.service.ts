@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse, Paged } from '../../models/default.interface';
+import { Brand } from '../../models/brand.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -9,8 +9,8 @@ import { ApiService } from '../api.service';
 export class BrandService {
   private readonly api = inject(ApiService);
 
-  getAllBrands(params?: any): Observable<Paged<DefaultResponse>> {
-    return this.api.get<Paged<DefaultResponse>>('brands', {
+  getAllBrands(params?: any): Observable<Brand> {
+    return this.api.get<Brand>('brands', {
       page: 1,
       limit: 10,
       keyword: '',
@@ -18,7 +18,7 @@ export class BrandService {
     });
   }
 
-  getBrand(brandId: string, params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`brands/${brandId}`, params);
+  getBrand(brandId: string, params?: any): Observable<Brand> {
+    return this.api.get<Brand>(`brands/${brandId}`, params);
   }
 }

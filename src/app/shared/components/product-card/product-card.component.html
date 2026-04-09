@@ -2,16 +2,12 @@
   class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group font-sans"
 >
   <div class="relative overflow-hidden mb-4">
-    <img
-      src="https://freshcart.codescandy.com/assets/images/products/product-img-1.jpg"
-      alt="product"
-      class="w-full h-auto object-contain"
-    />
+    <img [src]="product().imageCover" alt="product" class="w-full h-auto object-contain" />
 
-    <!--  ! ----------- Icons  Heart ! ----------- ....  -->
     <div class="absolute top-2 right-2 flex flex-col gap-2">
       <button
-        class="w-10 h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-emerald-600 hover:text-white transition-all"
+        class="w-10 h-10 cursor-pointer bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-emerald-600 hover:text-white transition-all"
+        (click)="favorite()"
       >
         <i class="far fa-heart"></i>
       </button>
@@ -24,6 +20,7 @@
 
       <button
         class="w-10 cursor-pointer h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-emerald-600 hover:text-white transition-all"
+        [routerLink]="['/product-details/', product()._id]"
       >
         <i class="far fa-eye"></i>
       </button>
@@ -31,12 +28,12 @@
   </div>
 
   <div class="space-y-1">
-    <p class="text-xs text-gray-400 tracking-wide">category name</p>
+    <p class="text-xs text-gray-400 tracking-wide">{{ product().category }}</p>
 
     <h3
       class="text-lg font-medium text-slate-800 hover:text-emerald-600 cursor-pointer transition-colors"
     >
-      product title
+      {{ product().title }}
     </h3>
 
     <div class="flex items-center gap-1">
@@ -47,16 +44,21 @@
         <i class="fas fa-star"></i>
         <i class="far fa-star text-gray-300"></i>
       </div>
-      <span class="text-xs text-gray-400 font-medium"> 4.2 (12)</span>
+      <span class="text-xs text-gray-400 font-medium">
+        {{ product().ratingsAverage }} ( {{ product().ratingsQuantity }} )</span
+      >
     </div>
 
     <div class="flex items-center justify-between pt-2">
       <div class="flex flex-col">
-        <span class="text-lg font-medium text-slate-900"> price EGP</span>
+        <span class="text-lg font-medium text-slate-900">
+          {{ product().price | currency: 'EGP' }}</span
+        >
       </div>
 
       <button
-        class="w-10 h-10 bg-emerald-600 text-white rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors shadow-sm active:scale-95"
+        class="w-10 h-10 bg-emerald-600 cursor-pointer text-white rounded-lg flex items-center justify-center hover:bg-emerald-700 transition-colors shadow-sm active:scale-95"
+        (click)="addToCart(product()._id)"
       >
         <i class="fas fa-plus"></i>
       </button>

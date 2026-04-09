@@ -174,7 +174,7 @@
       <div class="register-options flex gap-2 *:grow my-10">
         <button
           type="button"
-          class="btn bg-transparent border border-gray-300 hover:bg-gray-100 flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+          class="btn bg-transparent cursor-pointer border border-gray-300 hover:bg-gray-100 flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Sign up with Google"
         >
           <svg
@@ -192,7 +192,7 @@
           ><span>Google</span></button
         ><button
           type="button"
-          class="btn bg-transparent border border-gray-300 hover:bg-gray-100 flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+          class="btn bg-transparent cursor-pointer border border-gray-300 hover:bg-gray-100 flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Sign up with Facebook"
         >
           <svg
@@ -422,7 +422,7 @@
             <button
               type="button"
               aria-label="Toggle confirm password visibility"
-              class="absolute right-0 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-blue-600 z-10 focus:outline-none transition-colors"
+              class="absolute right-0 cursor-pointertop-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600 hover:text-blue-600 z-10 focus:outline-none transition-colors"
               (click)="toggleRePasswordVisibility()"
             >
               <i class="fas" [ngClass]="showRePassword() ? 'fa-eye-slash' : 'fa-eye'"></i>
@@ -524,7 +524,7 @@
           [disabled]="isSubmitDisabled()"
           type="submit"
           aria-label="Create your account"
-          class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 flex justify-center items-center gap-2"
+          class="w-full bg-blue-600 cursor-pointer hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 flex justify-center items-center gap-2"
         >
           @if (isLoading()) {
             <span>Creating Account...</span>

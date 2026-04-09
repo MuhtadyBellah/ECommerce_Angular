@@ -59,7 +59,7 @@ export class ChangPasswordComponent implements OnInit {
             Validators.pattern(environment.PASSWORD_PATTERN),
           ],
         ],
-        rePassword: ['', Validators.required],
+        rePassword: ['', [Validators.required]],
       },
       { validators: this.passwordMatchValidator },
     );
@@ -111,10 +111,11 @@ export class ChangPasswordComponent implements OnInit {
 
     const { rePassword, ...data } = this.changePasswordForm.value;
     this.authService
-      .patchChangePassword(data)
+      .putChangePassword(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {},
+        next: () => {},
+        error: () => {},
       });
     this.isSubmitted.set(false);
   }

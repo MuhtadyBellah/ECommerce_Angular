@@ -13,11 +13,11 @@ interface StrengthConfig {
 const STRENGTH_CONFIG: Record<PasswordStrength, StrengthConfig> = {
   weak: { label: 'Weak', percentage: 15, labelClass: 'text-fg-danger', barClass: 'bg-danger' },
   fair: { label: 'Fair', percentage: 30, labelClass: 'text-fg-warning', barClass: 'bg-warning' },
-  medium: { label: 'Medium', percentage: 45, labelClass: 'text-heading', barClass: 'bg-dark' },
-  good: { label: 'Good', percentage: 60, labelClass: 'text-fg-brand', barClass: 'bg-brand' },
+  medium: { label: 'Medium', percentage: 50, labelClass: 'text-heading', barClass: 'bg-dark' },
+  good: { label: 'Good', percentage: 65, labelClass: 'text-fg-brand', barClass: 'bg-brand' },
   strong: {
     label: 'Strong',
-    percentage: 75,
+    percentage: 100,
     labelClass: 'text-fg-success',
     barClass: 'bg-success',
   },
@@ -51,18 +51,14 @@ export class PasswordStrengthComponent {
     const score = Object.values(criteria).filter(Boolean).length;
 
     const baseValid =
-      criteria.hasUppercase &&
-      criteria.hasLowercase &&
-      criteria.hasDigit &&
-      criteria.hasSpecial &&
-      criteria.hasMinLength;
+      criteria.hasUppercase && criteria.hasLowercase && criteria.hasDigit && criteria.hasSpecial;
 
     if (!baseValid) {
       return score <= 2 ? 'weak' : 'fair';
     }
 
-    if (criteria.hasGoodLength) return 'good';
     if (criteria.hasGreatLength) return 'strong';
+    if (criteria.hasGoodLength) return 'good';
     return 'medium';
   }
 }

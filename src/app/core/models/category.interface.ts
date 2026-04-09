@@ -1,9 +1,7 @@
-import { DefaultResponse } from './default.interface';
+import { Root } from './root.interface';
 
-export interface Category {}
-
-export interface CategoryResponse extends DefaultResponse {
-  data: CategoryData[];
+export interface Category extends Root {
+  data: CategoryData | CategoryData[];
 }
 
 export interface CategoryData {

@@ -1,8 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
-import { Auth, AuthResponse, UserData } from '../../models/auth.interface';
-import { DefaultResponse, Paged } from '../../models/default.interface';
+import { Auth, User } from '../../models/auth.interface';
 import {
   changPasswordRequest,
   loginRequest,
@@ -10,6 +9,7 @@ import {
   resetPasswordRequest,
   updateProfileRequest,
 } from '../../models/request.interface';
+import { Root } from '../../models/root.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -18,7 +18,7 @@ import { ApiService } from '../api.service';
 export class AuthService {
   private readonly api = inject(ApiService);
 
-  private readonly _currentUser = signal<UserData | null>(null);
+  private readonly _currentUser = signal<User | null>(null);
   private readonly _isAuthenticated = signal(false);
 
   readonly currentUser = this._currentUser.asReadonly();
@@ -34,7 +34,7 @@ export class AuthService {
 
     if (storedToken && storedUserData) {
       try {
-        const userData = JSON.parse(storedUserData) as UserData;
+        const userData = JSON.parse(storedUserData) as User;
         this._currentUser.set(userData);
         this._isAuthenticated.set(true);
       } catch (error) {
@@ -58,43 +58,43 @@ export class AuthService {
     this._isAuthenticated.set(true);
   }
 
-  postRegister(data: registerRequest): Observable<AuthResponse> {
-    return this.api.post<AuthResponse>('auth/signup', data);
+  postRegister(data: registerRequest): Observable<Auth> {
+    return this.api.post<Auth>('auth/signup', data);
   }
 
-  postLogin(data: loginRequest): Observable<AuthResponse> {
-    return this.api.post<AuthResponse>('auth/signin', data);
+  postLogin(data: loginRequest): Observable<Auth> {
+    return this.api.post<Auth>('auth/signin', data);
   }
 
-  forgotPassword(email: string): Observable<DefaultResponse> {
-    return this.api.post<DefaultResponse>('auth/forgotPasswords', { email });
+  forgotPassword(email: string): Observable<Root> {
+    return this.api.post<Root>('auth/forgotPasswords', { email });
   }
 
-  verifyResetCode(code: string): Observable<DefaultResponse> {
-    return this.api.post<DefaultResponse>('auth/verifyResetCode', { code });
+  verifyResetCode(code: string): Observable<Root> {
+    return this.api.post<Root>('auth/verifyResetCode', { code });
   }
 
-  putResetPassword(data: resetPasswordRequest): Observable<DefaultResponse> {
-    return this.api.put<DefaultResponse>('auth/resetPassword', data);
+  putResetPassword(data: resetPasswordRequest): Observable<Root> {
+    return this.api.put<Root>('auth/resetPassword', data);
   }
 
   logout(): void {
     this.clearUserData();
   }
 
-  putChangePassword(data: changPasswordRequest): Observable<AuthResponse> {
-    return this.api.put<AuthResponse>('users/changeMyPassword', data);
+  putChangePassword(data: changPasswordRequest): Observable<Auth> {
+    return this.api.put<Auth>('users/changeMyPassword', data);
   }
 
-  putProfileData(data: updateProfileRequest): Observable<AuthResponse> {
-    return this.api.put<AuthResponse>('users/updateMe/', data);
+  putProfileData(data: updateProfileRequest): Observable<Auth> {
+    return this.api.put<Auth>('users/updateMe/', data);
   }
 
-  getAllUsers(params?: any): Observable<Paged<Auth>> {
-    return this.api.get<Paged<Auth>>('users', params);
+  getAllUsers(params?: any): Observable<Auth> {
+    return this.api.get<Auth>('users', params);
   }
 
-  getVerifyToken(params?: any): Observable<DefaultResponse> {
-    return this.api.get<Paged<Auth>>('auth/verifyToken', params);
+  getVerifyToken(params?: any): Observable<Root> {
+    return this.api.get<Root>('auth/verifyToken', params);
   }
 }

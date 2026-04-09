@@ -65,10 +65,6 @@
       </div>
     </div>
 
-    @if (errorMessage()) {
-      <app-alert type="danger" title="Login Failed:" [message]="errorMessage()"></app-alert>
-    }
-
     <div class="w-full">
       <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
         <div class="text-center mb-8">
@@ -83,7 +79,7 @@
         <div class="space-y-3 mb-6">
           <button
             type="button"
-            class="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
+            class="w-full cursor-pointer flex items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
           >
             <svg
               data-prefix="fab"
@@ -100,7 +96,7 @@
             ><span class="font-medium text-gray-700">Continue with Google</span></button
           ><button
             type="button"
-            class="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
+            class="w-full flex cursor-pointer items-center justify-center gap-3 py-3 px-4 border-2 border-gray-200 rounded-xl hover:border-primary-300 hover:bg-primary-50 transition-all duration-200"
           >
             <svg
               data-prefix="fab"
@@ -125,6 +121,9 @@
             <span class="px-4 bg-white text-gray-500 font-medium">OR CONTINUE WITH EMAIL</span>
           </div>
         </div>
+        @if (errorMessage()) {
+          <app-alert type="danger" title="Login Failed:" [message]="errorMessage()"></app-alert>
+        }
         <form class="w-full mt-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="relative z-0 w-full mb-6 group">
             <svg
@@ -268,7 +267,7 @@
             [disabled]="isSubmitDisabled()"
             type="submit"
             aria-label="Sign in to your account"
-            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 flex justify-center items-center gap-2"
+            class="w-full bg-blue-600 cursor-pointer hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 flex justify-center items-center gap-2"
           >
             @if (isLoading()) {
               <span>Signing In...</span>

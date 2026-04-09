@@ -11,7 +11,7 @@
   <div class="flex items-center justify-center mb-8">
     <div class="flex items-center">
       <div
-        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white"
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600"
       >
         <svg
           data-prefix="fas"
@@ -31,7 +31,7 @@
     </div>
     <div class="flex items-center">
       <div
-        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 text-white ring-4 ring-primary-100"
+        class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 bg-primary-600 ring-4 ring-primary-100"
       >
         <svg
           data-prefix="fas"
@@ -120,7 +120,7 @@
         <button
           [disabled]="isSubmitDisabled()"
           type="button"
-          class="text-primary-600 hover:text-primary-700 font-semibold transition-colors"
+          class="text-primary-600 cursor-pointer hover:text-primary-700 font-semibold transition-colors"
           (click)="resendCode()"
         >
           Resend Code
@@ -130,7 +130,7 @@
     <button
       [disabled]="isSubmitDisabled()"
       type="submit"
-      class="w-full bg-primary-600 text-white py-3 px-4 rounded-xl hover:bg-primary-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+      class="w-full cursor-pointer bg-primary-600 py-3 px-4 rounded-xl hover:bg-primary-700 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
     >
       @if (isLoading()) {
         <i class="animate-spin fas fa-spinner"></i>
@@ -142,7 +142,7 @@
     <div class="text-center">
       <button
         type="button"
-        class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 font-medium transition-colors"
+        class="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-500 hover:text-primary-600 font-medium transition-colors"
         routerLink="/password"
       >
         <svg

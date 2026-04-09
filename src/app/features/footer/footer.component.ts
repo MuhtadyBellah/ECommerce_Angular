@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { CategoryData } from '../../core/models/category.interface';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CategoryService } from '../../core/services/category/category.service';
+import { FeaduredSideComponent } from '../../shared/components/feadured-side/feadured-side.component';
 
 @Component({
   selector: 'app-footer',
-  imports: [RouterLink],
+  imports: [RouterLink, FeaduredSideComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
 })
@@ -18,7 +19,7 @@ export class FooterComponent implements OnInit {
 
   readonly currentUser = this.authService.currentUser;
 
-  readonly categories = signal<CategoryData[] | null>(null);
+  categories = signal<CategoryData[] | null>(null);
 
   ngOnInit(): void {
     this.loadCategories();

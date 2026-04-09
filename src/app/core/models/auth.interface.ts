@@ -1,23 +1,16 @@
-import { DefaultResponse } from './default.interface';
-export interface Auth extends DefaultResponse {
+import { Root } from './root.interface';
+
+export interface Auth extends Root {
   totalUsers: number;
-  users: UserData[];
-}
-
-export interface AuthResponse extends DefaultResponse {
+  users: User[];
+  user: User;
   token: string;
-  user: UserData;
 }
 
-export interface UserData {
+export interface User {
   _id: string;
   name: string;
   email: string;
-  role: string;
   createdAt: string;
-
-  photo: string;
-  dateOfBirth: string;
-  gender: string;
-  passwordChangedAt: string;
+  role: string;
 }

@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse } from '../../models/default.interface';
+import { Root } from '../../models/root.interface';
 import { ApiService } from '../api.service';
+import { Cart } from './../../models/cart.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -9,27 +10,27 @@ import { ApiService } from '../api.service';
 export class CartService {
   private readonly api = inject(ApiService);
 
-  addProduct(productId: string): Observable<DefaultResponse> {
-    return this.api.post<DefaultResponse>('cart', {
+  addProduct(productId: string): Observable<Cart> {
+    return this.api.post<Cart>('cart', {
       productId,
     });
   }
 
-  updateProduct(productId: string, cout: string): Observable<DefaultResponse> {
-    return this.api.put<DefaultResponse>(`cart/${productId}`, {
+  updateProduct(productId: string, cout: number): Observable<Root> {
+    return this.api.put<Root>(`cart/${productId}`, {
       cout,
     });
   }
 
-  deleteProduct(productId: string): Observable<DefaultResponse> {
-    return this.api.delete<DefaultResponse>(`cart/${productId}`);
+  deleteProduct(productId: string): Observable<Root> {
+    return this.api.delete<Root>(`cart/${productId}`);
   }
 
-  getUserCart(params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`cart`, params);
+  getUserCart(params?: any): Observable<Cart> {
+    return this.api.get<Cart>(`cart`, params);
   }
 
-  clearUserCart(): Observable<DefaultResponse> {
-    return this.api.delete<DefaultResponse>(`cart`);
+  clearUserCart(): Observable<Root> {
+    return this.api.delete<Root>(`cart`);
   }
 }

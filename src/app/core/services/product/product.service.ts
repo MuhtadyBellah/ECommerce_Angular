@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse, Paged } from '../../models/default.interface';
+import { Product } from '../../models/product.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -9,22 +9,20 @@ import { ApiService } from '../api.service';
 export class ProductService {
   private readonly api = inject(ApiService);
 
-  getAllProducts(params?: any): Observable<Paged<DefaultResponse>> {
-    return this.api.get<Paged<DefaultResponse>>('products', {
+  getAllProducts(params?: any): Observable<Product> {
+    return this.api.get<Product>('products', {
       page: 1,
       limit: 10,
-      keyword: '',
-      feilds: '',
+      // feilds: '',
       // price[gte]: 0,
       // price[let]: 0,
-      brand: '',
-      // categoy[in]: '',
-      // categoy[in]: '',
+      // brand: '',
+      // categoy[in]: ['<category-id>'],
       ...params,
     });
   }
 
-  getProduct(productId: string, params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`products/${productId}`, params);
+  getProduct(productId: string, params?: any): Observable<Product> {
+    return this.api.get<Product>(`products/${productId}`, params);
   }
 }

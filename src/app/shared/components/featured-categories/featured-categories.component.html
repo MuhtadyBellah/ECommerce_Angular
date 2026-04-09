@@ -1,0 +1,52 @@
+<section id="categories" class="py-10">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-8">
+      <div class="flex items-center gap-3 my-8">
+        <div class="h-8 w-1.5 bg-linear-to-b from-emerald-500 to-emerald-700 rounded-full"></div>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+          Shop By <span class="text-emerald-600">Category</span>
+        </h2>
+      </div>
+      <a
+        class="text-primary-600 self-end sm:self-auto hover:text-primary-700 font-medium flex items-center cursor-pointer"
+        routerLink="/categories"
+        >View All Categories<svg
+          data-prefix="fas"
+          data-icon="arrow-right"
+          class="svg-inline--fa fa-arrow-right ml-2"
+          role="img"
+          viewBox="0 0 512 512"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+          ></path></svg
+      ></a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      @for (category of categories(); track category._id) {
+        <a
+          class="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition group cursor-pointer"
+          [routerLink]="['/categories', category._id]"
+          ><div
+            class="h-20 w-20 overflow-hidden bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-primary-200 transition"
+          >
+            <img
+              [alt]="category.name"
+              loading="lazy"
+              width="300"
+              height="300"
+              decoding="async"
+              data-nimg="1"
+              class="w-full h-full object-cover"
+              style="color: transparent"
+              [src]="category.image"
+            />
+          </div>
+          <h3 class="font-medium">{{ category.name }}</h3></a
+        >
+      }
+    </div>
+  </div>
+</section>

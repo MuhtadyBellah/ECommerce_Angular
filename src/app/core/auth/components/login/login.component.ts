@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.formBuild.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, Validators.pattern(environment.PASSWORD_PATTERN)],
+      password: ['', [Validators.required, Validators.pattern(environment.PASSWORD_PATTERN)]],
       rememberMe: [false],
     });
   }
@@ -45,7 +45,11 @@ export class LoginComponent implements OnInit {
     this.errorMessage.set('');
     this.isLoading.set(true);
 
-    const loginRequest: loginRequest = this.loginForm.value;
+    const loginRequest: loginRequest = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password,
+    };
+
     this.authService
       .postLogin(loginRequest)
       .pipe(

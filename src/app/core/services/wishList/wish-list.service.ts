@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse } from '../../models/default.interface';
+import { Root } from '../../models/root.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -9,17 +9,17 @@ import { ApiService } from '../api.service';
 export class WishListService {
   private readonly api = inject(ApiService);
 
-  addProduct(productId: string): Observable<DefaultResponse> {
-    return this.api.post<DefaultResponse>('wishlist', {
+  addProduct(productId: string): Observable<Root> {
+    return this.api.post<Root>('wishlist', {
       productId,
     });
   }
 
-  deleteProduct(productId: string): Observable<DefaultResponse> {
-    return this.api.delete<DefaultResponse>(`wishlist/${productId}`);
+  deleteProduct(productId: string): Observable<Root> {
+    return this.api.delete<Root>(`wishlist/${productId}`);
   }
 
-  getUserWishlist(params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`wishlist`, params);
+  getUserWishlist(params?: any): Observable<Root> {
+    return this.api.get<Root>(`wishlist`, params);
   }
 }

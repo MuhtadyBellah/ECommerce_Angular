@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DefaultResponse } from '../../models/default.interface';
 import { reviewRequest } from '../../models/request.interface';
+import { Root } from '../../models/root.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -10,27 +10,27 @@ import { ApiService } from '../api.service';
 export class ReviewService {
   private readonly api = inject(ApiService);
 
-  addReview(productId: string, data: reviewRequest): Observable<DefaultResponse> {
-    return this.api.post<DefaultResponse>(`products/${productId}/reviews`, data);
+  addReview(productId: string, data: reviewRequest): Observable<Root> {
+    return this.api.post<Root>(`products/${productId}/reviews`, data);
   }
 
-  getReviewsProduct(productId: string, params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`products/${productId}/reviews`, params);
+  getReviewsProduct(productId: string, params?: any): Observable<Root> {
+    return this.api.get<Root>(`products/${productId}/reviews`, params);
   }
 
-  getAllReviews(params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>('reviews', params);
+  getAllReviews(params?: any): Observable<Root> {
+    return this.api.get<Root>('reviews', params);
   }
 
-  getReview(reviewId: string, params?: any): Observable<DefaultResponse> {
-    return this.api.get<DefaultResponse>(`reviews/${reviewId}`, params);
+  getReview(reviewId: string, params?: any): Observable<Root> {
+    return this.api.get<Root>(`reviews/${reviewId}`, params);
   }
 
-  updateReview(reviewId: string, data: reviewRequest): Observable<DefaultResponse> {
-    return this.api.put<DefaultResponse>(`reviews/${reviewId}`, data);
+  updateReview(reviewId: string, data: reviewRequest): Observable<Root> {
+    return this.api.put<Root>(`reviews/${reviewId}`, data);
   }
 
-  deleteReview(reviewId: string): Observable<DefaultResponse> {
-    return this.api.delete<DefaultResponse>(`reviews/${reviewId}`);
+  deleteReview(reviewId: string): Observable<Root> {
+    return this.api.delete<Root>(`reviews/${reviewId}`);
   }
 }
