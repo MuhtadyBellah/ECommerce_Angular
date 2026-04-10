@@ -111,6 +111,14 @@ export const routes: Routes = [
         title: 'Categories',
       },
       {
+        path: 'categories/:id',
+        loadComponent: () =>
+          import('./features/sub-category/sub-category.component').then(
+            (m) => m.SubCategoryComponent,
+          ),
+        title: 'SubCategories',
+      },
+      {
         path: 'contact',
         loadComponent: () =>
           import('./features/concat/concat.component').then((m) => m.ConcatComponent),

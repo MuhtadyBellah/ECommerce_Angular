@@ -6,10 +6,33 @@
         Featured <span class="text-emerald-600">Products</span>
       </h2>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-      @for (product of products(); track product.id) {
-        <app-product-card [product]="product"></app-product-card>
-      }
-    </div>
+
+    @if (loading()) {
+      <app-loading-spinner size="large" text="Loading products..."></app-loading-spinner>
+    } @else if (error()) {
+      <app-empty-state
+        icon="exclamation-triangle"
+        title="Error Loading Products"
+        description="{{ error() }}"
+        actionText="Try Again"
+        actionRouterLink="/products"
+      ></app-empty-state>
+    } @else if (products().length === 0) {
+      <app-empty-state
+        icon="box-open"
+        title="No Products Found"
+        description="There are no featured products available at the moment."
+        actionText="Browse All Products"
+        actionRouterLink="/products"
+      ></app-empty-state>
+    } @else {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+      >
+        @for (product of products(); track product.id) {
+          <app-product-card [product]="product"></app-product-card>
+        }
+      </div>
+    }
   </div>
 </section>

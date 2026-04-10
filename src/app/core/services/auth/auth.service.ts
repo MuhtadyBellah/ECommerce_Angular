@@ -74,8 +74,8 @@ export class AuthService {
     return this.api.post<Root>('auth/verifyResetCode', { code });
   }
 
-  putResetPassword(data: resetPasswordRequest): Observable<Root> {
-    return this.api.put<Root>('auth/resetPassword', data);
+  putResetPassword(data: resetPasswordRequest): Observable<Auth> {
+    return this.api.put<Auth>('auth/resetPassword', data);
   }
 
   logout(): void {

@@ -27,27 +27,17 @@ export class ProductDetailsComponent implements OnInit {
   private readonly cartService = inject(CartService);
 
   readonly stars = signal([0, 1, 2, 3, 4]);
-  productId = signal<string>('');
   product = signal<ProductData | null>(null);
 
   ngOnInit(): void {
-    this.getProductId();
-    if (this.productId()) {
-      this.getProduct();
-    }
-  }
-
-  private getProductId(): void {
-    this.activatedRoute.paramMap.subscribe({
-      next: (url) => {
-        this.productId.set(url.get('id') || '');
-      },
-    });
+    this.getProduct();
   }
 
   private getProduct(): void {
+    const productId = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.productService
-      .getProduct(this.productId())
+      .getProduct(productId!)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
@@ -58,7 +48,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(): void {
-    this.cartService.addProduct(this.productId()).subscribe({
+    const productId = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.cartService.addProduct(productId!).subscribe({
       next: () => {},
       error: () => {},
     });

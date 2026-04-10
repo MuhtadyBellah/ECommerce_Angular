@@ -1,111 +1,99 @@
-@if (cart()?.products?.length === 0) {
-  <div class="min-h-[60vh] flex items-center justify-center px-4">
-    <div class="max-w-md text-center">
-      <div class="relative mb-8">
-        <div
-          class="w-32 h-32 rounded-full bg-linear-to-br from-gray-100 to-gray-50 flex items-center justify-center mx-auto"
-        >
-          <svg
-            data-prefix="fas"
-            data-icon="box-open"
-            class="svg-inline--fa fa-box-open text-5xl text-gray-300"
-            role="img"
-            viewBox="0 0 640 512"
-            aria-hidden="true"
-          >
-            <path
-              fill="currentColor"
-              d="M560.3 237.2c10.4 11.8 28.3 14.4 41.8 5.5 14.7-9.8 18.7-29.7 8.9-44.4l-48-72c-2.8-4.2-6.6-7.7-11.1-10.2L351.4 4.7c-19.3-10.7-42.8-10.7-62.2 0L88.8 116c-5.4 3-9.7 7.4-12.6 12.8L27.7 218.7c-12.6 23.4-3.8 52.5 19.6 65.1l33 17.7 0 53.3c0 23 12.4 44.3 32.4 55.7l176 99.7c19.6 11.1 43.5 11.1 63.1 0l176-99.7c20.1-11.4 32.4-32.6 32.4-55.7l0-117.5zm-240-9.8L170.2 144 320.3 60.6 470.4 144 320.3 227.4zm-41.5 50.2l-21.3 46.2-165.8-88.8 25.4-47.2 161.7 89.8z"
-            ></path>
-          </svg>
-        </div>
-        <div
-          class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-gray-100 rounded-full blur-md"
-        ></div>
-      </div>
-      <h2 class="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h2>
-      <p class="text-gray-500 mb-8 leading-relaxed">
-        Looks like you haven't added anything to your cart yet.<br />Start exploring our products!
-      </p>
-      <a
-        class="inline-flex items-center gap-2 bg-linear-to-r from-primary-600 to-primary-700 text-white py-3.5 px-8 rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg shadow-primary-600/20 active:scale-[0.98]"
-        routerLink="/products"
-        >Start Shopping<svg
-          data-prefix="fas"
-          data-icon="arrow-right"
-          class="svg-inline--fa fa-arrow-right text-sm"
-          role="img"
-          viewBox="0 0 512 512"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
-          ></path></svg
-      ></a>
-      <div class="mt-12 pt-8 border-t border-gray-100">
-        <p class="text-sm text-gray-400 mb-4">Popular Categories</p>
-        <div class="flex flex-wrap justify-center gap-2">
-          <a
-            class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
-            routerLink="/categories"
-            >Electronics</a
-          ><a
-            class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
-            routerLink="/categories"
-            >Fashion</a
-          ><a
-            class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
-            routerLink="/categories"
-            >Home</a
-          ><a
-            class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
-            routerLink="/categories"
-            >Beauty</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-} @else {
-  <section>
-    <div class="container p-6">
-      <div class="bg-gray-50 min-h-screen py-8">
-        <div class="container mx-auto px-4">
-          <div class="mb-8">
-            <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-              <a class="hover:text-primary-600 transition" routerLink="/">Home</a><span>/</span
-              ><span class="text-gray-900 font-medium">Shopping Cart</span>
-            </nav>
-            <div class="flex items-center justify-between">
-              <div>
-                <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                  <span
-                    class="bg-linear-to-r from-primary-600 to-primary-700 text-white w-12 h-12 rounded-xl flex items-center justify-center"
-                    ><svg
-                      data-prefix="fas"
-                      data-icon="cart-shopping"
-                      class="svg-inline--fa fa-cart-shopping"
-                      role="img"
-                      viewBox="0 0 640 512"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M24-16C10.7-16 0-5.3 0 8S10.7 32 24 32l45.3 0c3.9 0 7.2 2.8 7.9 6.6l52.1 286.3c6.2 34.2 36 59.1 70.8 59.1L456 384c13.3 0 24-10.7 24-24s-10.7-24-24-24l-255.9 0c-11.6 0-21.5-8.3-23.6-19.7l-5.1-28.3 303.6 0c30.8 0 57.2-21.9 62.9-52.2L568.9 69.9C572.6 50.2 557.5 32 537.4 32l-412.7 0-.4-2c-4.8-26.6-28-46-55.1-46L24-16zM208 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm224 0a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
-                      ></path></svg></span
-                  >Shopping Cart
-                </h1>
-                <p class="text-gray-500 mt-2">
-                  You have
-                  <span class="font-semibold text-primary-600">
-                    {{ cart()?.products?.length }} item
-                  </span>
-                  in your cart
-                </p>
+<section>
+  <div class="container p-6">
+    <div class="bg-gray-50 min-h-screen py-8">
+      <div class="container mx-auto px-4">
+        <app-page-header
+          title="Shopping Cart"
+          [subtitle]="'You have' + cart()?.products?.length + 'item in your cart'"
+          icon="layer-group"
+          [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'Shopping Cart' }]"
+        ></app-page-header>
+
+        @if (loading()) {
+          <div class="min-h-[60vh] flex items-center justify-center">
+            <app-loading-spinner size="large" text="Loading your cart..."></app-loading-spinner>
+          </div>
+        } @else if (error()) {
+          <div class="min-h-[60vh] flex items-center justify-center">
+            <app-empty-state
+              icon="exclamation-triangle"
+              title="Error Loading Cart"
+              description="{{ error() }}"
+              actionText="Try Again"
+              (click)="retry()"
+            ></app-empty-state>
+          </div>
+        } @else if (cart()?.products?.length === 0) {
+          <div class="min-h-[60vh] flex items-center justify-center px-4">
+            <div class="max-w-md text-center">
+              <div class="relative mb-8">
+                <div
+                  class="w-32 h-32 rounded-full bg-linear-to-br from-gray-100 to-gray-50 flex items-center justify-center mx-auto"
+                >
+                  <svg
+                    data-prefix="fas"
+                    data-icon="box-open"
+                    class="svg-inline--fa fa-box-open text-5xl text-gray-300"
+                    role="img"
+                    viewBox="0 0 640 512"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M560.3 237.2c10.4 11.8 28.3 14.4 41.8 5.5 14.7-9.8 18.7-29.7 8.9-44.4l-48-72c-2.8-4.2-6.6-7.7-11.1-10.2L351.4 4.7c-19.3-10.7-42.8-10.7-62.2 0L88.8 116c-5.4 3-9.7 7.4-12.6 12.8L27.7 218.7c-12.6 23.4-3.8 52.5 19.6 65.1l33 17.7 0 53.3c0 23 12.4 44.3 32.4 55.7l176 99.7c19.6 11.1 43.5 11.1 63.1 0l176-99.7c20.1-11.4 32.4-32.6 32.4-55.7l0-117.5zm-240-9.8L170.2 144 320.3 60.6 470.4 144 320.3 227.4zm-41.5 50.2l-21.3 46.2-165.8-88.8 25.4-47.2 161.7 89.8z"
+                    ></path>
+                  </svg>
+                </div>
+                <div
+                  class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-gray-100 rounded-full blur-md"
+                ></div>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h2>
+              <p class="text-gray-500 mb-8 leading-relaxed">
+                Looks like you haven't added anything to your cart yet.<br />Start exploring our
+                products!
+              </p>
+              <a
+                class="inline-flex items-center gap-2 bg-linear-to-r from-primary-600 to-primary-700 text-white py-3.5 px-8 rounded-xl font-semibold hover:from-primary-700 hover:to-primary-800 transition-all shadow-lg shadow-primary-600/20 active:scale-[0.98]"
+                routerLink="/products"
+                >Start Shopping<svg
+                  data-prefix="fas"
+                  data-icon="arrow-right"
+                  class="svg-inline--fa fa-arrow-right text-sm"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                  ></path></svg
+              ></a>
+              <div class="mt-12 pt-8 border-t border-gray-100">
+                <p class="text-sm text-gray-400 mb-4">Popular Categories</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                  <a
+                    class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
+                    routerLink="/categories"
+                    >Electronics</a
+                  ><a
+                    class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
+                    routerLink="/categories"
+                    >Fashion</a
+                  ><a
+                    class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
+                    routerLink="/categories"
+                    >Home</a
+                  ><a
+                    class="px-4 py-2 bg-gray-50 hover:bg-primary-50 hover:text-primary-600 text-gray-600 rounded-full text-sm font-medium transition-colors"
+                    routerLink="/categories"
+                    >Beauty</a
+                  >
+                </div>
               </div>
             </div>
           </div>
+        } @else {
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2">
               <div class="space-y-4">
@@ -451,8 +439,8 @@
               </div>
             </div>
           </div>
-        </div>
+        }
       </div>
     </div>
-  </section>
-}
+  </div>
+</section>

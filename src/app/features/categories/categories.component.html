@@ -1,1 +1,93 @@
-<p>categories works!</p>
+<section class="py-10">
+  <div class="container mx-auto">
+    <app-page-header
+      title="All Categories"
+      subtitle="Browse our wide range of product categories"
+      icon="layer-group"
+      [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'All Categories' }]"
+    ></app-page-header>
+
+    @if (loading()) {
+      <app-loading-spinner size="large" text="Loading categories..."></app-loading-spinner>
+    } @else if (error()) {
+      <app-empty-state
+        icon="exclamation-triangle"
+        title="Error Loading Categories"
+        description="{{ error() }}"
+        actionText="Try Again"
+        (click)="retry()"
+      ></app-empty-state>
+    } @else if (categories().length === 0) {
+      <app-empty-state
+        icon="folder-open"
+        title="No Categories Found"
+        description="There are no categories available at the moment."
+        actionText="Browse Products"
+        actionRouterLink="/products"
+      ></app-empty-state>
+    } @else {
+      <div class="container mx-auto px-4 py-10">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+          @for (category of categories(); track category._id) {
+            <a
+              class="group bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm hover:shadow-xl hover:border-primary-200 transition-all duration-300 hover:-translate-y-1"
+              [routerLink]="['/categories/', category._id]"
+              ><div class="aspect-square rounded-xl overflow-hidden bg-gray-50 mb-4">
+                @if (category.image) {
+                  <img
+                    [src]="category.image"
+                    [alt]="category.name"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                } @else {
+                  <div
+                    class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-8 h-8 text-emerald-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      ></path>
+                    </svg>
+                  </div>
+                }
+              </div>
+              <div class="p-4">
+                <h3
+                  class="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors"
+                >
+                  {{ category.name }}
+                </h3>
+                <p class="text-xs text-gray-400 mt-2">Slug: {{ category.slug }}</p>
+              </div>
+              <div
+                class="flex justify-center mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <span class="text-xs text-primary-600 flex items-center gap-1"
+                  >View Subcategories<svg
+                    data-prefix="fas"
+                    data-icon="arrow-right"
+                    class="svg-inline--fa fa-arrow-right text-2xs"
+                    role="img"
+                    viewBox="0 0 512 512"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                    ></path></svg
+                ></span></div
+            ></a>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

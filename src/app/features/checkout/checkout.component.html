@@ -26,13 +26,26 @@
     <div class="space-y-6">
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="p-6">
-          <form class="space-y-5">
+          @if (errorMessage()) {
+            <app-alert type="danger" title="Login Failed:" [message]="errorMessage()"></app-alert>
+          }
+          <form class="space-y-5" [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
             <div>
               <!-- city  -->
               <div>
-                <label for="city" class="block mb-2 text-sm font-medium text-gray-900"
-                  >City <span class="text-red-500">*</span></label
-                >
+                <label
+                  for="city"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="
+                    checkoutForm.get('city')?.touched && checkoutForm.get('city')?.invalid
+                      ? 'text-red-500 peer-focus:text-red-600'
+                      : 'text-gray-500 peer-focus:text-blue-600'
+                  "
+                  >City
+                  @if (getFieldError('city')) {
+                    <p class="mt-1 text-xs text-red-500">{{ getFieldError('city') }}</p>
+                  }
+                </label>
                 <div class="relative">
                   <div
                     class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none text-gray-400"
@@ -42,9 +55,20 @@
                   <input
                     type="text"
                     id="city"
-                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    formControlName="city"
+                    class="bg-white border text-gray-900 text-sm rounded-lg focus:ring-brand-500 block w-full ps-10 p-3"
                     placeholder="e.g. Cairo, Alexandria, Giza"
                     required
+                    [ngClass]="
+                      checkoutForm.get('city')?.touched && checkoutForm.get('city')?.invalid
+                        ? 'border-red-500'
+                        : 'border-gray-300'
+                    "
+                    [ngClass]="
+                      checkoutForm.get('city')?.touched && checkoutForm.get('city')?.invalid
+                        ? 'focus:border-red-600'
+                        : 'focus:border-blue-600'
+                    "
                   />
                 </div>
               </div>
@@ -52,30 +76,61 @@
               <!-- Street Address   -->
 
               <div>
-                <label for="address" class="block mb-2 text-sm font-medium text-gray-900"
-                  >Street Address <span class="text-red-500">*</span></label
-                >
+                <label
+                  for="address"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="
+                    checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid
+                      ? 'text-red-500 peer-focus:text-red-600'
+                      : 'text-gray-500 peer-focus:text-blue-600'
+                  "
+                  >Street Address <span class="text-red-500">*</span>
+                  @if (getFieldError('address')) {
+                    <p class="mt-1 text-xs text-red-500">{{ getFieldError('address') }}</p>
+                  }
+                </label>
                 <div class="relative">
                   <div
-                    class="absolute inset-y-0 inset-s-0 flex items-start pt-3.5 ps-3.5 pointer-events-none text-gray-400"
+                    class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none text-gray-400"
                   >
                     <i class="fa-solid fa-location-dot"></i>
                   </div>
                   <textarea
                     id="address"
-                    rows="3"
-                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    formControlName="address"
+                    class="bg-white border text-gray-900 text-sm rounded-lg focus:ring-brand-500 block w-full ps-10 p-3"
                     placeholder="Street name, building number, floor, apartment..."
                     required
+                    [ngClass]="
+                      checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid
+                        ? 'border-red-500'
+                        : 'border-gray-300'
+                    "
+                    [ngClass]="
+                      checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid
+                        ? 'focus:border-red-600'
+                        : 'focus:border-blue-600'
+                    "
                   ></textarea>
                 </div>
               </div>
+
               <!-- phone  -->
 
               <div>
-                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900"
-                  >Phone Number <span class="text-red-500">*</span></label
-                >
+                <label
+                  for="phone"
+                  class="block mb-2 text-sm font-medium"
+                  [ngClass]="
+                    checkoutForm.get('phone')?.touched && checkoutForm.get('phone')?.invalid
+                      ? 'text-red-500 peer-focus:text-red-600'
+                      : 'text-gray-500 peer-focus:text-blue-600'
+                  "
+                  >Phone Number <span class="text-red-500">*</span>
+                  @if (getFieldError('phone')) {
+                    <p class="mt-1 text-xs text-red-500">{{ getFieldError('phone') }}</p>
+                  }
+                </label>
                 <div class="relative">
                   <div
                     class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none text-gray-400"
@@ -85,9 +140,20 @@
                   <input
                     type="tel"
                     id="phone"
-                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    formControlName="phone"
+                    class="bg-white border text-gray-900 text-sm rounded-lg focus:ring-brand-500 block w-full ps-10 p-3"
                     placeholder="01xxxxxxxxx"
                     required
+                    [ngClass]="
+                      checkoutForm.get('phone')?.touched && checkoutForm.get('phone')?.invalid
+                        ? 'border-red-500'
+                        : 'border-gray-300'
+                    "
+                    [ngClass]="
+                      checkoutForm.get('phone')?.touched && checkoutForm.get('phone')?.invalid
+                        ? 'focus:border-red-600'
+                        : 'focus:border-blue-600'
+                    "
                   />
                   <div
                     class="absolute inset-y-0 inset-e-0 flex items-center pe-3 pointer-events-none"
@@ -109,6 +175,7 @@
                         value="cash"
                         class="peer sr-only"
                         checked
+                        (change)="changePaymentMethod()"
                       />
 
                       <div
@@ -139,6 +206,7 @@
                         name="payment_method"
                         value="visa"
                         class="peer sr-only"
+                        (change)="changePaymentMethod()"
                       />
 
                       <div
@@ -174,21 +242,37 @@
                   class="md:col-span-1 p-6 bg-white border border-gray-100 rounded-2xl shadow-sm h-fit sticky top-8 space-y-5"
                 >
                   <div class="pt-2">
-                    <button
-                      type="submit"
-                      class="w-full cursor-pointer py-3.5 px-4 rounded-lg bg-green-600 text-white font-semibold text-sm items-center justify-center gap-2 hover:bg-green-700 transition-colors hidden group-has-[#payment-cod:checked]:flex"
-                    >
-                      <i class="fas fa-shopping-bag"></i>
-                      Place Order
-                    </button>
+                    @if (isCash()) {
+                      <button
+                        [disabled]="isSubmitDisabled()"
+                        type="submit"
+                        class="w-full cursor-pointer py-3.5 px-4 rounded-lg bg-green-600 text-white font-semibold text-sm items-center justify-center gap-2 hover:bg-green-700 transition-colors hidden group-has-[#payment-cod:checked]:flex"
+                      >
+                        <i class="fas fa-shopping-bag"></i>
 
-                    <button
-                      type="submit"
-                      class="w-full cursor-pointer py-3.5 px-4 rounded-lg bg-green-600 text-white font-semibold text-sm items-center justify-center gap-2 hover:bg-green-700 transition-colors hidden group-has-[#payment-card:checked]:flex"
-                    >
-                      <i class="fas fa-shield-alt"></i>
-                      Proceed to Payment
-                    </button>
+                        @if (isLoading()) {
+                          <span>progress...</span>
+                          <i class="animate-spin fas fa-spinner"></i>
+                        } @else {
+                          Place Order
+                        }
+                      </button>
+                    } @else {
+                      <button
+                        [disabled]="isSubmitDisabled()"
+                        type="submit"
+                        class="w-full cursor-pointer py-3.5 px-4 rounded-lg bg-green-600 text-white font-semibold text-sm items-center justify-center gap-2 hover:bg-green-700 transition-colors hidden group-has-[#payment-card:checked]:flex"
+                      >
+                        <i class="fas fa-shield-alt"></i>
+
+                        @if (isLoading()) {
+                          <span>progress...</span>
+                          <i class="animate-spin fas fa-spinner"></i>
+                        } @else {
+                          Proceed to Payment
+                        }
+                      </button>
+                    }
                   </div>
                 </div>
               </div>

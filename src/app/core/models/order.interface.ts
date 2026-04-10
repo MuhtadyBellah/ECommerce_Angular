@@ -4,6 +4,7 @@ import { CartData } from './cart.interface';
 import { Root } from './root.interface';
 
 export interface Order extends Root {
+  session: Session;
   data: Daum[];
 }
 
@@ -22,4 +23,10 @@ export interface Daum {
   updatedAt: string;
   id: number;
   paidAt?: string;
+}
+
+export interface Session {
+  url: string;
+  success_url: string;
+  cancel_url: string;
 }

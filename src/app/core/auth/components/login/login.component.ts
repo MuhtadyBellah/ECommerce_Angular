@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { AlertComponent } from '../../../../shared/components/alert/alert.component';
@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   private readonly formBuild = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   loginForm!: FormGroup;
 
@@ -57,7 +58,11 @@ export class LoginComponent implements OnInit {
         finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
-        next: () => {},
+        next: (res) => {
+          if (res.message === 'success') {
+            this.router.navigate(['/home']);
+          }
+        },
         error: (error) => {
           if (error.status === 400) {
             this.errorMessage.set('Incorrect email or password');

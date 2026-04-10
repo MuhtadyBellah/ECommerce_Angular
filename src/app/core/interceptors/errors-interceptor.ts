@@ -2,7 +2,6 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../services/auth/auth.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
 
@@ -18,27 +17,22 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
       if (errorHandler.shouldShowSuccessNotification(req.url, req.method)) {
         errorHandler.handleSuccess(response);
       }
-      if (req.url.includes('signin') || req.url.includes('changeMyPassword')) {
+
+      if (req.url.includes('auth/signin') || req.url.includes('users/changeMyPassword')) {
         const data = response?.body;
 
         if (data) {
-          if (req.url.includes('signin')) {
+          if (req.url.includes('auth/signin')) {
             authService.setUserData(data.token, data.user);
-          } else {
-            authService.setUserData(
-              data.token,
-              JSON.parse(localStorage.getItem(environment.userData) || ''),
-            );
+          } else if (req.url.includes('users/changeMyPassword')) {
+            const currentUser = authService.currentUser();
+            if (currentUser) {
+              authService.setUserData(data.token, currentUser);
+            }
           }
-
-          router.navigate(['/home']);
+          // Navigation handled by the component, not interceptor
           return;
         }
-      }
-
-      if (req.url.includes('signup') || req.url.includes('resetPassword')) {
-        router.navigate(['/auth/login']);
-        return;
       }
     }),
 
