@@ -8,6 +8,7 @@ import { CategoryData } from '../../core/models/category.interface';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CartService } from '../../core/services/cart/cart.service';
 import { CategoryService } from '../../core/services/category/category.service';
+import { WishListService } from '../../core/services/wishList/wish-list.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartService);
+  private readonly wishListService = inject(WishListService);
 
   readonly currentUser = this.authService.currentUser;
   readonly isAuthinticated = this.authService.isAuthenticated;
@@ -28,17 +30,34 @@ export class NavbarComponent implements OnInit {
   readonly isProfileOpen = signal(false);
 
   cartCount = signal<number>(0);
+  favoriteCount = signal<number>(0);
   categories = signal<CategoryData[] | null>(null);
 
   ngOnInit(): void {
     if (this.isAuthinticated()) {
       this.getUserCart();
+      this.loadFavorites();
 
       interval(300000)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => this.getUserCart());
+        .subscribe(() => {
+          this.getUserCart();
+          this.loadFavorites();
+        });
     }
     this.loadCategories();
+  }
+
+  private loadFavorites(): void {
+    this.wishListService
+      .getUserWishlist()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.favoriteCount.set(res.count);
+        },
+        error: () => {},
+      });
   }
 
   private getUserCart(): void {
@@ -46,6 +65,7 @@ export class NavbarComponent implements OnInit {
       next: (res) => {
         this.cartCount.set(res.numOfCartItems);
       },
+      error: () => {},
     });
   }
 

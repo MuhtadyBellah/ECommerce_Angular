@@ -7,7 +7,7 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
     if (!req.url.includes('/auth/signup') && !req.url.includes('/auth/signin')) {
       req = req.clone({
         setHeaders: {
-          authorization: `Bearer ${token}`,
+          token: `${token}`,
           // lang: 'en'
         },
       });

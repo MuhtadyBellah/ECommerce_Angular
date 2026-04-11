@@ -84,7 +84,7 @@ export const routes: Routes = [
         title: 'Product',
       },
       {
-        path: 'product-search',
+        path: 'search/:id',
         loadComponent: () =>
           import('./features/product-search/product-search.component').then(
             (m) => m.ProductSearchComponent,
@@ -92,7 +92,7 @@ export const routes: Routes = [
         title: 'Product Search',
       },
       {
-        path: 'product-details/:id',
+        path: 'products/:id',
         loadComponent: () =>
           import('./features/product-details/product-details.component').then(
             (m) => m.ProductDetailsComponent,

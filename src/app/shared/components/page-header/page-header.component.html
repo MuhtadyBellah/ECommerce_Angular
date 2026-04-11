@@ -1,61 +1,57 @@
-<div class="bg-linear-to-br from-primary-600 via-primary-500 to-primary-400">
-  <div class="container mx-auto px-4 py-10 sm:py-12">
-    @if (breadcrumbItems.length > 0) {
-      <nav class="flex items-center gap-2 text-sm mb-6 flex-wrap">
-        @for (item of breadcrumbItems; track $index) {
-          @if (item.link) {
-            <a class="transition-colors" [routerLink]="item.link">{{ item.label }}</a>
-          } @else {
-            <span class="font-medium">{{ item.label }}</span>
-          }
-          @if (!$last) {
-            <span>/</span>
-          }
-        }
-      </nav>
+@if (breadcrumbItems.length > 0) {
+  <nav class="flex items-center gap-2 text-sm mb-6 flex-wrap">
+    @for (item of breadcrumbItems; track $index) {
+      @if (item.link) {
+        <a class="transition-colors" [routerLink]="item.link">{{ item.label }}</a>
+      } @else {
+        <span class="font-medium">{{ item.label }}</span>
+      }
+      @if (!$last) {
+        <span>/</span>
+      }
     }
+  </nav>
+}
 
-    <div class="flex items-center gap-5">
-      <div
-        class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-xl ring-1 ring-white/30"
-      >
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-          ></path>
-        </svg>
-      </div>
+<div class="flex items-center gap-5">
+  <div
+    class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-xl ring-1 ring-white/30"
+  >
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+      ></path>
+    </svg>
+  </div>
 
-      <div>
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">{{ title }}</h1>
-        @if (subtitle) {
-          <p class="mt-1">{{ subtitle }}</p>
-        }
-      </div>
-    </div>
-
-    @if (showBackButton && backLink) {
-      <div class="mt-6">
-        <a class="inline-flex items-center gap-2 transition-colors" [routerLink]="backLink">
-          <svg
-            data-prefix="fas"
-            data-icon="arrow-left"
-            class="svg-inline--fa fa-arrow-left"
-            role="img"
-            viewBox="0 0 512 512"
-            aria-hidden="true"
-          >
-            <path
-              fill="currentColor"
-              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 105.4-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
-            ></path>
-          </svg>
-          <span>Back</span>
-        </a>
-      </div>
+  <div>
+    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">{{ title }}</h1>
+    @if (subtitle) {
+      <p class="mt-1">{{ subtitle }}</p>
     }
   </div>
 </div>
+
+@if (showBackButton && backLink) {
+  <div class="mt-6">
+    <a class="inline-flex items-center gap-2 transition-colors" [routerLink]="backLink">
+      <svg
+        data-prefix="fas"
+        data-icon="arrow-left"
+        class="svg-inline--fa fa-arrow-left"
+        role="img"
+        viewBox="0 0 512 512"
+        aria-hidden="true"
+      >
+        <path
+          fill="currentColor"
+          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 105.4-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+        ></path>
+      </svg>
+      <span>Back</span>
+    </a>
+  </div>
+}

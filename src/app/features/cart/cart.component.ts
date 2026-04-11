@@ -1,23 +1,16 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { CurrencyPipe, NgClass } from '@angular/common';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { CartData } from '../../core/models/cart.interface';
 import { CartService } from '../../core/services/cart/cart.service';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
-import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-cart',
-  imports: [
-    CurrencyPipe,
-    RouterLink,
-    LoadingSpinnerComponent,
-    EmptyStateComponent,
-    PageHeaderComponent,
-  ],
+  imports: [CurrencyPipe, RouterLink, EmptyStateComponent, PageHeaderComponent, NgClass],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -25,10 +18,34 @@ export class CartComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly cartService = inject(CartService);
 
+  readonly FREE_SHIPPING_THRESHOLD = 500;
+  readonly SHIPPING_COST = 50;
+
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
   updating = signal<boolean>(false);
   cart = signal<CartData | null>(null);
+
+  shippingProgress = computed(() => {
+    const cartTotal = this.cart()?.totalCartPrice || 0;
+    const progress = (cartTotal / this.FREE_SHIPPING_THRESHOLD) * 100;
+    return Math.min(progress, 100);
+  });
+
+  amountForFreeShipping = computed(() => {
+    const cartTotal = this.cart()?.totalCartPrice || 0;
+    return Math.max(0, this.FREE_SHIPPING_THRESHOLD - cartTotal);
+  });
+
+  hasFreeShipping = computed(() => {
+    const cartTotal = this.cart()?.totalCartPrice || 0;
+    return cartTotal >= this.FREE_SHIPPING_THRESHOLD;
+  });
+
+  totalWithShipping = computed(() => {
+    const cartTotal = this.cart()?.totalCartPrice || 0;
+    return this.hasFreeShipping() ? cartTotal : cartTotal + this.SHIPPING_COST;
+  });
 
   ngOnInit(): void {
     this.getUserCart();

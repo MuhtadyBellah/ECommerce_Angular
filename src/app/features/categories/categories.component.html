@@ -1,11 +1,15 @@
-<section class="py-10">
-  <div class="container mx-auto">
-    <app-page-header
-      title="All Categories"
-      subtitle="Browse our wide range of product categories"
-      icon="layer-group"
-      [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'All Categories' }]"
-    ></app-page-header>
+<section>
+  <div class="min-h-screen bg-gray-50/50">
+    <div class="bg-linear-to-br from-primary-600 via-primary-500 to-primary-400">
+      <div class="container mx-auto px-4 py-12 sm:py-16">
+        <app-page-header
+          title="All Categories"
+          subtitle="Browse our wide range of product categories"
+          icon="layer-group"
+          [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'All Categories' }]"
+        ></app-page-header>
+      </div>
+    </div>
 
     @if (loading()) {
       <app-loading-spinner size="large" text="Loading categories..."></app-loading-spinner>

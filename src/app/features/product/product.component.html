@@ -1,11 +1,15 @@
-<section class="py-10">
-  <div class="container mx-auto">
-    <app-page-header
-      title="All Products"
-      subtitle="Explore our complete product collection"
-      icon="box-open"
-      [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'All Products' }]"
-    ></app-page-header>
+<section>
+  <div class="min-h-screen bg-gray-50/50">
+    <div class="bg-linear-to-br from-primary-600 via-primary-500 to-primary-400">
+      <div class="container mx-auto px-4 py-10 sm:py-14">
+        <app-page-header
+          title="All Products"
+          subtitle="Explore our complete product collection"
+          icon="box-open"
+          [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'All Products' }]"
+        ></app-page-header>
+      </div>
+    </div>
     @if (loading()) {
       <app-loading-spinner size="large" text="Loading products..."></app-loading-spinner>
     } @else if (error()) {
@@ -25,11 +29,70 @@
         actionRouterLink="/categories"
       ></app-empty-state>
     } @else {
-      <div class="mb-6 text-sm text-gray-500">Showing {{ products().length }} products</div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-        @for (product of products(); track product._id) {
-          <app-product-card [product]="product"></app-product-card>>
-        }
+      <div class="container mx-auto px-4 py-8">
+        <!-- Products Header with Filters -->
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8 gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">All Products</h2>
+            <p class="text-sm text-gray-600">Showing {{ sortedProducts().length }} products</p>
+          </div>
+
+          <!-- Sort and View Options -->
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <select
+                class="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                [value]="selectedSort()"
+                (change)="onSortChange($event)"
+              >
+                @for (option of sortOptions; track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+              <svg
+                class="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Product Grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 lg:gap-8"
+        >
+          @for (product of sortedProducts(); track product._id) {
+            <div class="transform transition-all duration-300 hover:scale-105">
+              <app-product-card [product]="product"></app-product-card>
+            </div>
+          }
+        </div>
+
+        <!-- Load More Button -->
+        <div class="flex justify-center mt-12">
+          <button
+            class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-medium px-8 py-3 rounded-xl transition-colors duration-200 shadow-lg hover:shadow-xl hover:shadow-primary-600/25"
+          >
+            <span>Load More Products</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     }
   </div>

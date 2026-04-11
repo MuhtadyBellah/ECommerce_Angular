@@ -91,7 +91,7 @@ emoji-mart .emoji-mart-scroll {
   --color-danger: #fb2c36;
 
   /* gradient */
-  --gradient-primary: linear-gradient(to right, #00c758e6, #05df7280);
+  --linear-primary: linear-gradient(to right, #00c758e6, #05df7280);
 }
 
 @util container {

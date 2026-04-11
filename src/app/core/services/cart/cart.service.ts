@@ -16,9 +16,9 @@ export class CartService {
     });
   }
 
-  updateProduct(productId: string, cout: number): Observable<Root> {
+  updateProduct(productId: string, count: number): Observable<Root> {
     return this.api.put<Root>(`cart/${productId}`, {
-      cout,
+      count,
     });
   }
 
