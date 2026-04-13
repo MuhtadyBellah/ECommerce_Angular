@@ -2,10 +2,14 @@ import { User } from './auth.interface';
 import { Root } from './root.interface';
 
 export interface Review extends Root {
-  data: reviewData[];
+  data: ReviewData[];
 }
 
-export interface reviewData {
+export interface ReviewResponse extends Root {
+  data: ReviewData;
+}
+
+export interface ReviewData {
   _id: string;
   review: string;
   rating: number;

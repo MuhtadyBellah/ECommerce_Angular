@@ -40,8 +40,7 @@ export class CategoriesComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          const data = Array.isArray(res.data) ? res.data : [res.data];
-          this.categories.set(data);
+          this.categories.set(res.data);
         },
         error: (err) => {
           console.error('Failed to load categories:', err);

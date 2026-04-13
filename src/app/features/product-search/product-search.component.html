@@ -1,1 +1,427 @@
-<p>product-search works!</p>
+<div class="min-h-screen bg-gray-50/50">
+  <div class="bg-white border-b border-gray-100">
+    <div class="container mx-auto px-4 py-6">
+      <app-page-header
+        [title]="'Search Results for \'' + searchQuery() + '\''"
+        [subtitle]="'We found ' + productCount() + ' products for you'"
+        icon="magnifying-glass"
+        [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'Search Results' }]"
+      >
+        <form class="max-w-2xl py-6" (ngSubmit)="onSearchSubmit($event)">
+          <div class="relative">
+            <svg
+              data-prefix="fas"
+              data-icon="magnifying-glass"
+              class="svg-inline--fa fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              role="img"
+              viewBox="0 0 512 512"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376C296.3 401.1 253.9 416 208 416 93.1 416 0 322.9 0 208S93.1 0 208 0 416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+              ></path></svg
+            ><input
+              type="text"
+              name="search"
+              placeholder="Search for products..."
+              class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all text-lg"
+              [value]="searchQuery()"
+              fdprocessedid="eron8b"
+            />
+          </div>
+        </form>
+      </app-page-header>
+    </div>
+  </div>
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex gap-8">
+      <aside class="hidden lg:block w-64 shrink-0">
+        <div class="bg-white rounded-2xl border border-gray-100 p-6 sticky top-24">
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-gray-900">Categories</h3>
+              </div>
+              <div class="space-y-2 max-h-52 overflow-y-auto">
+                @for (category of categories(); track $index) {
+                  <label class="flex items-center gap-3 cursor-pointer group"
+                    ><input
+                      class="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      type="checkbox"
+                      [checked]="selectedCategories().includes(category._id)"
+                      (change)="onCategoryChange($event, category._id)"
+                    /><span
+                      class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors"
+                    >
+                      {{ category.name }}
+                    </span>
+                  </label>
+                }
+              </div>
+            </div>
+            <hr class="border-gray-100" />
+            <div>
+              <h3 class="font-bold text-gray-900 mb-4">Price Range</h3>
+              <div class="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label class="text-xs text-gray-500 mb-1 block">Min (EGP)</label
+                  ><input
+                    #min
+                    placeholder="0"
+                    class="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
+                    type="number"
+                    [value]="priceRange() ? priceRange()![0] : 0"
+                    (input)="onPriceRangeChange(min, max)"
+                  />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-500 mb-1 block">Max (EGP)</label
+                  ><input
+                    #max
+                    placeholder="No limit"
+                    class="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none"
+                    type="number"
+                    [value]="priceRange() ? priceRange()![1] : 5000"
+                    (input)="onPriceRangeChange(min, max)"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  (click)="onQuickPriceChange(0, 500)"
+                >
+                  Under 500</button
+                ><button
+                  class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  (click)="onQuickPriceChange(0, 1000)"
+                >
+                  Under 1K</button
+                ><button
+                  class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  (click)="onQuickPriceChange(0, 5000)"
+                >
+                  Under 5K</button
+                ><button
+                  class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  (click)="onQuickPriceChange(0, 10000)"
+                >
+                  Under 10K
+                </button>
+              </div>
+            </div>
+            <hr class="border-gray-100" />
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-gray-900">Brands</h3>
+              </div>
+              <div class="space-y-2 max-h-52 overflow-y-auto">
+                @for (brand of brands(); track $index) {
+                  <label class="flex items-center gap-3 cursor-pointer group"
+                    ><input
+                      class="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      type="checkbox"
+                      [checked]="selectedBrands().includes(brand._id)"
+                      (change)="onBrandChange($event, brand._id)"
+                    /><span
+                      class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors"
+                      >{{ brand.name }}
+                    </span>
+                  </label>
+                }
+              </div>
+            </div>
+            <hr class="border-gray-100" />
+            <button
+              class="w-full py-2.5 rounded-lg border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 hover:border-gray-300 transition-colors"
+              (click)="clearAllFilters()"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        </div>
+      </aside>
+      <main class="flex-1 min-w-0">
+        <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
+          <div class="flex items-center gap-4">
+            <button
+              class="lg:hidden flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
+            >
+              <svg
+                data-prefix="fas"
+                data-icon="sliders"
+                class="svg-inline--fa fa-sliders"
+                role="img"
+                viewBox="0 0 512 512"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 224zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384z"
+                ></path></svg
+              >Filters
+            </button>
+            <div class="flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-1">
+              <button class="p-2 rounded-md transition-colors bg-primary-600">
+                <svg
+                  data-prefix="fas"
+                  data-icon="grip-vertical"
+                  class="svg-inline--fa fa-grip-vertical"
+                  role="img"
+                  viewBox="0 0 320 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M128 40c0-22.1-17.9-40-40-40L40 0C17.9 0 0 17.9 0 40L0 88c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48zm0 192c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48zM0 424l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40zM320 40c0-22.1-17.9-40-40-40L232 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48zM192 232l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40zM320 424c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48z"
+                  ></path>
+                </svg></button
+              ><button class="p-2 rounded-md transition-colors text-gray-500 hover:text-gray-700">
+                <svg
+                  data-prefix="fas"
+                  data-icon="list"
+                  class="svg-inline--fa fa-list"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-500">Sort by:</span
+            ><select
+              [value]="selectedSort()"
+              (change)="onSortChange($event)"
+              class="px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none bg-white"
+            >
+              @for (option of sortOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="mb-6 flex items-center gap-2 flex-wrap">
+          <span class="text-sm text-gray-500 flex items-center gap-1"
+            ><svg
+              data-prefix="fas"
+              data-icon="filter"
+              class="svg-inline--fa fa-filter text-xs"
+              role="img"
+              viewBox="0 0 512 512"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M32 64C19.1 64 7.4 71.8 2.4 83.8S.2 109.5 9.4 118.6L192 301.3 192 416c0 8.5 3.4 16.6 9.4 22.6l64 64c9.2 9.2 22.9 11.9 34.9 6.9S320 492.9 320 480l0-178.7 182.6-182.6c9.2-9.2 11.9-22.9 6.9-34.9S492.9 64 480 64L32 64z"
+              ></path></svg
+            >Active:</span
+          >
+          @if (selectedSearch()) {
+            <span
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs"
+            >
+              "{{ selectedSearch() }}"
+              <button
+                class="hover:text-red-500"
+                fdprocessedid="mqisse"
+                (click)="selectedSearch.set('')"
+              >
+                <svg
+                  data-prefix="fas"
+                  data-icon="xmark"
+                  class="svg-inline--fa fa-xmark"
+                  role="img"
+                  viewBox="0 0 384 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+          }
+          @for (item of selectedCategories(); track $index) {
+            <span
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-700 text-xs"
+            >
+              {{ item }}
+              <button
+                class="hover:text-red-500"
+                fdprocessedid="6xzjwn"
+                (click)="this.selectedCategories.set(selectedCategories().filter((id) => id !== item));"
+              >
+                <svg
+                  data-prefix="fas"
+                  data-icon="xmark"
+                  class="svg-inline--fa fa-xmark"
+                  role="img"
+                  viewBox="0 0 384 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+          }
+
+          @for (item of selectedBrands(); track $index) {
+            <span
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-100 text-violet-700 text-xs"
+            >
+              {{ item }}
+              <button
+                class="hover:text-red-500"
+                fdprocessedid="a25y2j"
+                (click)="this.selectedBrands.set(selectedBrands().filter((id) => id !== item));"
+              >
+                <svg
+                  data-prefix="fas"
+                  data-icon="xmark"
+                  class="svg-inline--fa fa-xmark"
+                  role="img"
+                  viewBox="0 0 384 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+          }
+
+          @if (priceRange()) {
+            <span
+              class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-amber-100 text-amber-700 text-xs"
+            >
+              {{ priceRange()![0] }}-{{ priceRange()![1] }} EGP
+              <button
+                class="hover:text-red-500"
+                fdprocessedid="sah1qx"
+                (click)="this.priceRange.set([0, 5000])"
+              >
+                <svg
+                  data-prefix="fas"
+                  data-icon="xmark"
+                  class="svg-inline--fa fa-xmark"
+                  role="img"
+                  viewBox="0 0 384 512"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"
+                  ></path>
+                </svg>
+              </button>
+            </span>
+          }
+          <button
+            class="text-xs text-gray-500 hover:text-gray-700 underline ml-2"
+            fdprocessedid="98witp"
+            (click)="clearAllFilters()"
+          >
+            Clear all
+          </button>
+        </div>
+        <!-- Loading State -->
+        @if (isLoading()) {
+          <div class="text-center py-20">
+            <div
+              class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-5"
+            >
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Loading Products...</h3>
+            <p class="text-gray-500">Please wait while we find the best products for you.</p>
+          </div>
+        }
+
+        <!-- Error State -->
+        @else if (hasError()) {
+          <div class="text-center py-20">
+            <div
+              class="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5"
+            >
+              <svg
+                class="w-8 h-8 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Something went wrong</h3>
+            <p class="text-gray-500 mb-6">{{ error() }}</p>
+            <button
+              (click)="retry()"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-600 font-semibold hover:bg-primary-700 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        }
+
+        <!-- Empty State -->
+        @else if (showEmptyState()) {
+          <div
+            class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-5"
+          >
+            <svg
+              data-prefix="fas"
+              data-icon="magnifying-glass"
+              class="svg-inline--fa fa-magnifying-glass text-3xl text-gray-400"
+              role="img"
+              viewBox="0 0 512 512"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376C296.3 401.1 253.9 416 208 416 93.1 416 0 322.9 0 208S93.1 0 208 0 416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">No Products Found</h3>
+          <p class="text-gray-500 mb-6">
+            Try adjusting your search or filters to find what you're looking for.
+          </p>
+          <button
+            (click)="clearAllFilters()"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-600 font-semibold hover:bg-primary-700 transition-colors"
+          >
+            Clear Filters
+          </button>
+        } @else {
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @for (product of sortedProducts(); track product._id) {
+              <app-product-card
+                [product]="product"
+                [isWishlisted]="product.isFavorite || false"
+                (addFavorite)="addFavorite(product)"
+              ></app-product-card>
+            }
+          </div>
+        }
+      </main>
+    </div>
+  </div>
+</div>

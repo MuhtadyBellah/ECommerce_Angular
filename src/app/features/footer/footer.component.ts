@@ -19,7 +19,7 @@ export class FooterComponent implements OnInit {
 
   readonly currentUser = this.authService.currentUser;
 
-  categories = signal<CategoryData[] | null>(null);
+  categories = signal<CategoryData[]>([]);
 
   ngOnInit(): void {
     this.loadCategories();
@@ -31,11 +31,9 @@ export class FooterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
-          this.categories.set(response.data || null);
+          this.categories.set(response.data);
         },
-        error: () => {
-          this.categories.set(null);
-        },
+        error: () => {},
       });
   }
 }

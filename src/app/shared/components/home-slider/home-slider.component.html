@@ -31,7 +31,7 @@
                   </a>
 
                   <a
-                    class="border border-white text-white px-6 py-2 rounded-lg"
+                    class="border border-white px-6 py-2 rounded-lg"
                     [routerLink]="slide.secondaryLink"
                   >
                     {{ slide.secondaryText }}
@@ -57,18 +57,12 @@
     </div>
 
     <!-- Prev -->
-    <button
-      (click)="prev()"
-      class="absolute left-0 top-0 h-full px-4 flex items-center text-white text-2xl"
-    >
+    <button (click)="prev()" class="absolute left-0 top-0 h-full px-4 flex items-center text-2xl">
       ❮
     </button>
 
     <!-- Next -->
-    <button
-      (click)="next()"
-      class="absolute right-0 top-0 h-full px-4 flex items-center text-white text-2xl"
-    >
+    <button (click)="next()" class="absolute right-0 top-0 h-full px-4 flex items-center text-2xl">
       ❯
     </button>
   </div>

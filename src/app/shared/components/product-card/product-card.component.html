@@ -41,7 +41,7 @@
         <button
           class="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all duration-200 shadow-lg hover:bg-red-600"
           [ngClass]="isWishlisted() ? 'bg-red-500  ' : 'text-gray-700  '"
-          (click)="toggleWishlist(product()._id)"
+          (click)="toggleWishlist(product())"
           [title]="isWishlisted() ? 'Remove from wishlist' : 'Add to wishlist'"
         >
           <svg
@@ -150,7 +150,7 @@
       </div>
 
       <button
-        class="relative overflow-hidden group/btn bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium px-4 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary-600/25 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+        class="relative overflow-hidden group/btn bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium px-4 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary-600/25 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
         [disabled]="!isInStock()"
         (click)="addToCart(product()._id)"
         [attr.aria-label]="!isInStock() ? 'Out of stock' : 'Add to cart'"

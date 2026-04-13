@@ -40,8 +40,7 @@ export class BrandsComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          const data = Array.isArray(res.data) ? res.data : [res.data];
-          this.brands.set(data);
+          this.brands.set(res.data);
         },
         error: (err) => {
           console.error('Failed to load brands:', err);

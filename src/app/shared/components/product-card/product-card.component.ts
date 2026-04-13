@@ -1,9 +1,8 @@
 import { CurrencyPipe, NgClass } from '@angular/common';
-import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart/cart.service';
-import { WishListService } from '../../../core/services/wishList/wish-list.service';
 import { ProductData } from './../../../core/models/product.interface';
 
 @Component({
@@ -12,13 +11,13 @@ import { ProductData } from './../../../core/models/product.interface';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly cartService = inject(CartService);
-  private readonly wishListService = inject(WishListService);
 
   readonly product = input.required<ProductData>();
-  readonly isWishlisted = signal<boolean>(false);
+  readonly isWishlisted = input.required<boolean>();
+  readonly addFavorite = output<ProductData>();
 
   readonly isInStock = computed(() => {
     const product = this.product();
@@ -36,62 +35,13 @@ export class ProductCardComponent implements OnInit {
     return Math.round(((product.price - product.priceAfterDiscount) / product.price) * 100);
   });
 
-  ngOnInit(): void {
-    this.loadFavorites();
-  }
-
-  private loadFavorites(): void {
-    this.wishListService
-      .getUserWishlist()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (res) => {
-          const currentProductId = this.product()._id;
-          const wishlistData = res.data || [];
-          const isProductInWishlist = Array.isArray(wishlistData)
-            ? wishlistData.some((item: any) => item._id === currentProductId)
-            : false;
-          this.isWishlisted.set(isProductInWishlist);
-        },
-        error: () => {
-          this.isWishlisted.set(false);
-        },
-      });
-  }
-
   getRatingStars(): number {
     const product = this.product();
     return Math.floor(product?.ratingsAverage || 0);
   }
 
-  toggleWishlist(productId: string): void {
-    const currentlyWishlisted = this.isWishlisted();
-
-    if (currentlyWishlisted) {
-      this.wishListService
-        .deleteProduct(productId)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: () => {
-            this.isWishlisted.set(!this.isWishlisted());
-          },
-          error: (error) => {
-            console.error('Failed to remove from wishlist:', error);
-          },
-        });
-    } else {
-      this.wishListService
-        .addProduct(productId)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: () => {
-            this.isWishlisted.set(!this.isWishlisted());
-          },
-          error: (error) => {
-            console.error('Failed to add to wishlist:', error);
-          },
-        });
-    }
+  toggleWishlist(product: ProductData): void {
+    this.addFavorite.emit(product);
   }
 
   addToCart(productId: string): void {

@@ -44,12 +44,7 @@ export class SubCategoryComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          const data = Array.isArray(res.data) ? res.data : [res.data];
-          this.subCategories.set(data);
-
-          if (data.length > 0) {
-            this.categoryName.set(data[0].name);
-          }
+          this.subCategories.set(res.data);
         },
         error: (err: any) => {
           console.error('Failed to load subcategories:', err);

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
-import { Category } from './../../models/category.interface';
+import { Category, CategoryResponse } from './../../models/category.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class CategoryService {
     });
   }
 
-  getCategory(categoryId: string, params?: any): Observable<Category> {
-    return this.api.get<Category>(`categories/${categoryId}`, params);
+  getCategory(categoryId: string, params?: any): Observable<CategoryResponse> {
+    return this.api.get<CategoryResponse>(`categories/${categoryId}`, params);
   }
 }

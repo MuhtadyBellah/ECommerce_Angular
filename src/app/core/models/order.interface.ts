@@ -5,10 +5,10 @@ import { Root } from './root.interface';
 
 export interface Order extends Root {
   session: Session;
-  data: Daum[];
+  data: OrderData[];
 }
 
-export interface Daum {
+export interface OrderData {
   shippingAddress?: AddressData;
   taxPrice: number;
   shippingPrice: number;

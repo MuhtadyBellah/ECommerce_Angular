@@ -74,7 +74,7 @@
           <div class="flex items-center gap-4">
             <a
               class="flex items-center gap-1.5 text-gray-600 hover:text-primary-600 transition-colors"
-              href="/profile"
+              routerLink="/profile"
               ><svg
                 data-prefix="far"
                 data-icon="user"
@@ -163,10 +163,11 @@
             style="color: transparent"
             src="/images/images/fresh-logo.svg"
         /></a>
-        <form class="hidden lg:flex flex-1 max-w-2xl">
+        <form class="hidden lg:flex flex-1 max-w-2xl" (ngSubmit)="onSearchSubmit($event)">
           <div class="relative w-full">
             <input
               type="text"
+              name="search"
               placeholder="Search for products, brands and more..."
               class="w-full px-5 py-3 pr-12 rounded-full border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-sm"
               value=""
@@ -561,10 +562,11 @@
           </svg>
         </button>
       </div>
-      <form class="p-4 border-b border-gray-100">
+      <form class="p-4 border-b border-gray-100" (ngSubmit)="onSearchSubmit($event)">
         <div class="relative">
           <input
             type="text"
+            name="search"
             placeholder="Search products..."
             class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-sm"
             value=""

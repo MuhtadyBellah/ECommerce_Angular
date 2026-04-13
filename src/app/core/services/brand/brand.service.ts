@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Brand } from '../../models/brand.interface';
+import { Brand, BrandResponse } from '../../models/brand.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -13,12 +13,11 @@ export class BrandService {
     return this.api.get<Brand>('brands', {
       page: 1,
       limit: 10,
-      keyword: '',
       ...params,
     });
   }
 
-  getBrand(brandId: string, params?: any): Observable<Brand> {
-    return this.api.get<Brand>(`brands/${brandId}`, params);
+  getBrand(brandId: string, params?: any): Observable<BrandResponse> {
+    return this.api.get<BrandResponse>(`brands/${brandId}`, params);
   }
 }

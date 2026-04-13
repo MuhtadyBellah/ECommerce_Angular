@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SubCategory } from '../../models/sub-category.interface';
+import { SubCategory, SubCategoryResponse } from '../../models/sub-category.interface';
 import { ApiService } from '../api.service';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class SubCategoryService {
     return this.api.get<SubCategory>('subcategories', { limit: 10, ...params });
   }
 
-  getSubCategory(subcategoryId: string, params?: any): Observable<SubCategory> {
-    return this.api.get<SubCategory>(`subcategories/${subcategoryId}`, params);
+  getSubCategory(subcategoryId: string, params?: any): Observable<SubCategoryResponse> {
+    return this.api.get<SubCategoryResponse>(`subcategories/${subcategoryId}`, params);
   }
 
   getSubCategoriesMainCategory(categoryId: string, params?: any): Observable<SubCategory> {

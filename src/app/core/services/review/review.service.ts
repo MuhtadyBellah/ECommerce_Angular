@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { reviewRequest } from '../../models/request.interface';
+import { Review, ReviewResponse } from '../../models/review.interface';
 import { Root } from '../../models/root.interface';
 import { ApiService } from '../api.service';
 
@@ -10,24 +11,24 @@ import { ApiService } from '../api.service';
 export class ReviewService {
   private readonly api = inject(ApiService);
 
-  addReview(productId: string, data: reviewRequest): Observable<Root> {
-    return this.api.post<Root>(`products/${productId}/reviews`, data);
+  addReview(productId: string, data: reviewRequest): Observable<ReviewResponse> {
+    return this.api.post<ReviewResponse>(`products/${productId}/reviews`, data);
   }
 
-  getReviewsProduct(productId: string, params?: any): Observable<Root> {
-    return this.api.get<Root>(`products/${productId}/reviews`, params);
+  getReviewsProduct(productId: string, params?: any): Observable<Review> {
+    return this.api.get<Review>(`products/${productId}/reviews`, params);
   }
 
-  getAllReviews(params?: any): Observable<Root> {
-    return this.api.get<Root>('reviews', params);
+  getAllReviews(params?: any): Observable<Review> {
+    return this.api.get<Review>('reviews', params);
   }
 
-  getReview(reviewId: string, params?: any): Observable<Root> {
-    return this.api.get<Root>(`reviews/${reviewId}`, params);
+  getReview(reviewId: string, params?: any): Observable<ReviewResponse> {
+    return this.api.get<ReviewResponse>(`reviews/${reviewId}`, params);
   }
 
-  updateReview(reviewId: string, data: reviewRequest): Observable<Root> {
-    return this.api.put<Root>(`reviews/${reviewId}`, data);
+  updateReview(reviewId: string, data: reviewRequest): Observable<ReviewResponse> {
+    return this.api.put<ReviewResponse>(`reviews/${reviewId}`, data);
   }
 
   deleteReview(reviewId: string): Observable<Root> {

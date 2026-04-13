@@ -51,3 +51,14 @@ export interface orderRequest {
     city: string;
   };
 }
+
+export interface productParams {
+  page: number;
+  limit: number;
+  q?: string;
+  category?: string[];
+  subcategory?: string[];
+  brand?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}

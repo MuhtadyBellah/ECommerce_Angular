@@ -31,20 +31,23 @@ export class NavbarComponent implements OnInit {
 
   cartCount = signal<number>(0);
   favoriteCount = signal<number>(0);
-  categories = signal<CategoryData[] | null>(null);
+  categories = signal<CategoryData[]>([]);
 
   ngOnInit(): void {
     if (this.isAuthinticated()) {
       this.getUserCart();
       this.loadFavorites();
+    }
 
-      interval(300000)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => {
+    interval(30000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.isAuthinticated()) {
           this.getUserCart();
           this.loadFavorites();
-        });
-    }
+        }
+      });
+
     this.loadCategories();
   }
 
@@ -74,12 +77,10 @@ export class NavbarComponent implements OnInit {
       .getAllCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => {
-          this.categories.set(response.data || null);
+        next: (response) => {
+          this.categories.set(response.data);
         },
-        error: () => {
-          this.categories.set(null);
-        },
+        error: () => {},
       });
   }
 
@@ -94,5 +95,18 @@ export class NavbarComponent implements OnInit {
 
   toggleProfile(): void {
     this.isProfileOpen.set(!this.isProfileOpen());
+  }
+
+  onSearchSubmit(event: Event): void {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const searchValue = formData.get('search') as string;
+
+    if (searchValue && searchValue.trim()) {
+      this.router.navigate(['/search'], {
+        queryParams: { q: searchValue.trim() },
+      });
+    }
   }
 }

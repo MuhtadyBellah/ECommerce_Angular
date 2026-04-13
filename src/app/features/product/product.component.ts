@@ -1,8 +1,11 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ProductData } from '../../core/models/product.interface';
+import { productParams } from '../../core/models/request.interface';
 import { ProductService } from '../../core/services/product/product.service';
+import { WishListService } from '../../core/services/wishList/wish-list.service';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
@@ -22,23 +25,29 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
 export class ProductComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly productService = inject(ProductService);
+  private readonly wishListService = inject(WishListService);
+  private readonly route = inject(ActivatedRoute);
 
   readonly sortOptions = [
     { value: 'featured', label: 'Sort by: Featured' },
-    { value: 'price-low-high', label: 'Price: Low to High' },
-    { value: 'price-high-low', label: 'Price: High to Low' },
+    { value: 'price', label: 'Price: Low to High' },
+    { value: '-price', label: 'Price: High to Low' },
     { value: 'newest', label: 'Newest First' },
     { value: 'rating', label: 'Best Rated' },
-  ] as const;
+    { value: 'title', label: 'A-Z' },
+    { value: '-title', label: 'Z-A' },
+  ];
 
-  loading = signal<boolean>(true);
-  error = signal<string | null>(null);
   products = signal<ProductData[]>([]);
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
   selectedSort = signal<string>('featured');
-
-  ngOnInit(): void {
-    this.loadProducts();
-  }
+  selectedSubcategory = signal<string>('');
+  selectedCategory = signal<string>('');
+  selectedBrand = signal<string>('');
+  priceRange = signal<[number, number]>([0, 5000]);
+  selectedSearch = signal<string>('');
+  favorites = signal<Set<string>>(new Set());
 
   readonly sortedProducts = computed(() => {
     const products = this.products();
@@ -49,11 +58,11 @@ export class ProductComponent implements OnInit {
     const sorted = [...products];
 
     switch (sortType) {
-      case 'price-low-high':
+      case 'price':
         return sorted.sort(
           (a, b) => (a.priceAfterDiscount || a.price) - (b.priceAfterDiscount || b.price),
         );
-      case 'price-high-low':
+      case '-price':
         return sorted.sort(
           (a, b) => (b.priceAfterDiscount || b.price) - (a.priceAfterDiscount || a.price),
         );
@@ -63,18 +72,99 @@ export class ProductComponent implements OnInit {
         );
       case 'rating':
         return sorted.sort((a, b) => (b.ratingsAverage || 0) - (a.ratingsAverage || 0));
+      case 'title':
+        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      case '-title':
+        return sorted.sort((a, b) => b.title.localeCompare(a.title));
       case 'featured':
       default:
-        return sorted.sort((a, b) => (b._id || '').localeCompare(a._id || ''));
+        return sorted.sort((a, b) => b._id.localeCompare(a._id));
     }
   });
+
+  ngOnInit(): void {
+    this.getParams();
+    this.loadFavorites();
+  }
+
+  private getParams(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      const sort = params.get('sort');
+      const subcategory = params.get('subcategory');
+      const category = params.get('category');
+      const brand = params.get('brand');
+      const priceMin = params.get('priceMin');
+      const priceMax = params.get('priceMax');
+      const search = params.get('search');
+
+      // Handle sorting
+      if (sort) {
+        this.selectedSort.set(sort);
+      }
+
+      // Handle filtering
+      if (subcategory) {
+        this.selectedSubcategory.set(subcategory);
+        console.log('Filtering by subcategory:', subcategory);
+      }
+
+      if (category) {
+        this.selectedCategory.set(category);
+      }
+
+      if (brand) {
+        this.selectedBrand.set(brand);
+      }
+
+      if (search) {
+        this.selectedSearch.set(search);
+      }
+
+      // Handle price range
+      if (priceMin) {
+        this.priceRange.set([parseInt(priceMin), this.priceRange()[1]]);
+      }
+
+      if (priceMax) {
+        this.priceRange.set([this.priceRange()[0], parseInt(priceMax)]);
+      }
+
+      this.loadProducts();
+    });
+  }
 
   private loadProducts(): void {
     this.loading.set(true);
     this.error.set(null);
 
+    const queryParams: productParams = { page: 1, limit: 40 };
+
+    if (this.selectedSubcategory()) {
+      queryParams.subcategory = [this.selectedSubcategory()];
+    }
+
+    if (this.selectedCategory()) {
+      queryParams.category = [this.selectedCategory()];
+    }
+
+    if (this.selectedBrand()) {
+      queryParams.brand = this.selectedBrand();
+    }
+
+    if (this.selectedSearch()) {
+      queryParams.q = this.selectedSearch();
+    }
+
+    if (this.priceRange()[0] > 0) {
+      queryParams.minPrice = this.priceRange()[0];
+    }
+
+    if (this.priceRange()[1] < 5000) {
+      queryParams.maxPrice = this.priceRange()[1];
+    }
+
     this.productService
-      .getAllProducts({ limit: 40 })
+      .getAllProducts(queryParams)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
@@ -83,14 +173,70 @@ export class ProductComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          const data = Array.isArray(res.data) ? res.data : [res.data];
-          this.products.set(data);
+          this.products.set(res.data);
         },
         error: (err) => {
           console.error('Failed to load products:', err);
           this.error.set('Failed to load products. Please try again later.');
         },
       });
+  }
+
+  private loadFavorites(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.wishListService
+      .getUserWishlist()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => {
+          this.loading.set(false);
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          const favIDS = res.data.map((d) => d._id);
+          this.products.update((p) =>
+            p.map((product) => ({
+              ...product,
+              isFavorite: favIDS.includes(product._id),
+            })),
+          );
+        },
+        error: (err) => {
+          console.error('Failed to load products:', err);
+          this.error.set('Failed to load products. Please try again later.');
+        },
+      });
+  }
+
+  addFavorite(product: ProductData) {
+    if (product.isFavorite) {
+      this.wishListService
+        .deleteProduct(product._id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            product.isFavorite = false;
+          },
+          error: (error) => {
+            console.error('Failed to remove from wishlist:', error);
+          },
+        });
+    } else {
+      this.wishListService
+        .addProduct(product._id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            product.isFavorite = true;
+          },
+          error: (error) => {
+            console.error('Failed to add to wishlist:', error);
+          },
+        });
+    }
   }
 
   onSortChange(event: Event): void {

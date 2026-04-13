@@ -1,7 +1,11 @@
 import { Root } from './root.interface';
 
 export interface Brand extends Root {
-  data: BrandData | BrandData[];
+  data: BrandData[];
+}
+
+export interface BrandResponse extends Root {
+  data: BrandData[];
 }
 
 export interface BrandData {

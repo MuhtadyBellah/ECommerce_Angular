@@ -1,7 +1,11 @@
 import { Root } from './root.interface';
 
 export interface Address extends Root {
-  data: AddressData | AddressData[];
+  data: AddressData[];
+}
+
+export interface AddressResponse extends Root {
+  data: AddressData;
 }
 
 export interface AddressData {

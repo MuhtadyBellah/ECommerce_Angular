@@ -4,13 +4,17 @@ import { Root } from './root.interface';
 import { SubCategoryData } from './sub-category.interface';
 
 export interface Product extends Root {
-  data: ProductData | ProductData[];
+  data: ProductData[];
+}
+
+export interface ProductResponse extends Root {
+  data: ProductData;
 }
 
 export interface ProductData {
   sold: number;
   images: string[];
-  subcategory: SubCategoryData[];
+  subcategory: SubCategoryData;
   ratingsQuantity: number;
   _id: string;
   title: string;
@@ -27,4 +31,5 @@ export interface ProductData {
   id: string;
   priceAfterDiscount?: number;
   availableColors?: any[];
+  isFavorite?: boolean;
 }

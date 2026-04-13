@@ -1,7 +1,11 @@
 import { Root } from './root.interface';
 
 export interface Category extends Root {
-  data: CategoryData | CategoryData[];
+  data: CategoryData[];
+}
+
+export interface CategoryResponse extends Root {
+  data: CategoryData;
 }
 
 export interface CategoryData {
