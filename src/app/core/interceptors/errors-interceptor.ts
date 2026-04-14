@@ -18,18 +18,15 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
         errorHandler.handleSuccess(response);
       }
 
-      if (req.url.includes('auth/signin') || req.url.includes('users/changeMyPassword')) {
+      if (
+        req.url.includes('auth/signin') ||
+        req.url.includes('users/changeMyPassword') ||
+        req.url.includes('auth/resetPassword')
+      ) {
         const data = response?.body;
 
         if (data) {
-          if (req.url.includes('auth/signin')) {
-            authService.setUserData(data.token, data.user);
-          } else if (req.url.includes('users/changeMyPassword')) {
-            const currentUser = authService.currentUser();
-            if (currentUser) {
-              authService.setUserData(data.token, currentUser);
-            }
-          }
+          authService.setUserData(data.token);
           // Navigation handled by the component, not interceptor
           return;
         }

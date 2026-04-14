@@ -17,8 +17,6 @@ export class FooterComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly authService = inject(AuthService);
 
-  readonly currentUser = this.authService.currentUser;
-
   categories = signal<CategoryData[]>([]);
 
   ngOnInit(): void {

@@ -24,7 +24,7 @@ export class ConfirmComponent {
   readonly isLoading = signal(false);
   readonly showPassword = signal(false);
 
-  readonly isSubmitDisabled = computed(() => this.confirmForm?.invalid || this.isLoading());
+  readonly isSubmitDisabled = computed(() => !this.confirmForm?.invalid || this.isLoading());
 
   private readonly validationMessages: Record<string, Record<string, string>> = {
     email: {

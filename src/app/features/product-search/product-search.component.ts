@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BrandData } from '../../core/models/brand.interface';
@@ -16,7 +16,7 @@ import { ProductCardComponent } from '../../shared/components/product-card/produ
 
 @Component({
   selector: 'app-product-search',
-  imports: [PageHeaderComponent, ProductCardComponent, ReactiveFormsModule],
+  imports: [PageHeaderComponent, ProductCardComponent, FormsModule],
   templateUrl: './product-search.component.html',
   styleUrl: './product-search.component.css',
 })
@@ -103,7 +103,6 @@ export class ProductSearchComponent implements OnInit {
   readonly showEmptyState = computed(
     () => !this.isLoading() && !this.hasError() && !this.hasProducts(),
   );
-  readonly searchQuery = computed(() => this.selectedSearch());
   readonly productCount = computed(() => this.products().length);
 
   ngOnInit(): void {
@@ -121,7 +120,7 @@ export class ProductSearchComponent implements OnInit {
       const brand = params.get('brand');
       const priceMin = params.get('priceMin');
       const priceMax = params.get('priceMax');
-      const search = params.get('search');
+      const search = params.get('q');
 
       // Handle sorting
       if (sort) {
@@ -319,15 +318,10 @@ export class ProductSearchComponent implements OnInit {
     this.loadProducts();
   }
 
-  onSearchSubmit(event: Event): void {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const searchValue = formData.get('search') as string;
-
-    if (searchValue !== this.selectedSearch()) {
+  onSearchSubmit(): void {
+    if (this.selectedSearch() && this.selectedSearch().trim()) {
       this.router.navigate(['/search'], {
-        queryParams: { q: searchValue },
+        queryParams: { q: this.selectedSearch().trim() },
       });
     }
   }

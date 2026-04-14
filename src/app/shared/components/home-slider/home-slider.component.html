@@ -1,69 +1,99 @@
-<div class="relative">
-  <div class="relative w-full overflow-hidden rounded-lg h-100">
-    <!-- Slides -->
-    <div class="h-full relative">
-      @for (slide of slides; track $index) {
+<div
+  class="relative w-full h-125 overflow-hidden rounded-3xl"
+  (mouseenter)="pause()"
+  (mouseleave)="resume()"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)"
+>
+  <!-- Slides -->
+  <div class="h-full relative">
+    @for (slide of slides; track i; let i = $index) {
+      <div
+        class="absolute inset-0 transition-all duration-700 ease-in-out"
+        [class.opacity-0]="currentIndex() !== i"
+        [class.opacity-100]="currentIndex() === i"
+      >
+        <!-- Image -->
+        <img
+          [src]="slide.image"
+          loading="lazy"
+          class="w-full h-full object-cover scale-105 transition-transform duration-700"
+        />
+
+        <!-- Overlay -->
         <div
-          class="absolute inset-0 transition-all duration-700 ease-in-out"
-          [class.opacity-0]="currentIndex() !== $index"
-          [class.opacity-100]="currentIndex() === $index"
-        >
-          <div
-            class="h-full flex items-center"
-            [style.backgroundImage]="'url(' + slide.image + ')'"
-            style="background-size: cover; background-position: center"
-          >
-            <div
-              class="w-full h-full bg-linear-to-r from-green-500/90 to-green-400/50 flex items-center"
-            >
-              <div class="container text-white">
-                <h2 class="text-3xl font-bold mb-4 max-w-md">
-                  {{ slide.title }}
-                </h2>
-                <p>{{ slide.desc }}</p>
+          class="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-transparent"
+        ></div>
 
-                <div class="mt-4">
-                  <a
-                    class="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold mr-2"
-                    [routerLink]="slide.primaryLink"
-                  >
-                    {{ slide.primaryText }}
-                  </a>
+        <!-- Content -->
+        <div class="absolute inset-0 flex items-center px-10">
+          <div class="text-white max-w-lg space-y-4">
+            <!-- Badge -->
+            <span class="px-3 py-1 text-xs rounded-full bg-white/20 backdrop-blur-md">
+              {{ slide.badge }}
+            </span>
 
-                  <a
-                    class="border border-white px-6 py-2 rounded-lg"
-                    [routerLink]="slide.secondaryLink"
-                  >
-                    {{ slide.secondaryText }}
-                  </a>
-                </div>
-              </div>
+            <!-- Title -->
+            <h2 class="text-4xl font-bold leading-tight">
+              {{ slide.title }}
+            </h2>
+
+            <!-- Subtitle -->
+            <p class="text-lg opacity-90">
+              {{ slide.subtitle }}
+            </p>
+
+            <!-- Description -->
+            <p class="text-sm opacity-70">
+              {{ slide.desc }}
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex gap-4 mt-4">
+              <a
+                [routerLink]="slide.primaryLink"
+                class="px-6 py-3 bg-green-500 hover:bg-green-600 transition rounded-xl font-semibold shadow-lg"
+              >
+                {{ slide.primaryText }}
+              </a>
+
+              <a
+                [routerLink]="slide.secondaryLink"
+                class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur rounded-xl"
+              >
+                {{ slide.secondaryText }}
+              </a>
             </div>
           </div>
         </div>
-      }
-    </div>
+      </div>
+    }
+  </div>
 
-    <!-- Indicators -->
-    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-      @for (slide of slides; track $index) {
-        <button
-          (click)="goToSlide($index)"
-          class="w-3 h-3 rounded-full"
-          [class.bg-white]="currentIndex() === $index"
-          [class.bg-white/50]="currentIndex() !== $index"
-        ></button>
-      }
-    </div>
+  <!-- Arrows -->
+  <button
+    (click)="prev()"
+    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 rounded-full backdrop-blur transition"
+  >
+    ‹
+  </button>
 
-    <!-- Prev -->
-    <button (click)="prev()" class="absolute left-0 top-0 h-full px-4 flex items-center text-2xl">
-      ❮
-    </button>
+  <button
+    (click)="next()"
+    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 rounded-full backdrop-blur transition"
+  >
+    ›
+  </button>
 
-    <!-- Next -->
-    <button (click)="next()" class="absolute right-0 top-0 h-full px-4 flex items-center text-2xl">
-      ❯
-    </button>
+  <!-- Dots -->
+  <div class="absolute bottom-5 w-full flex justify-center gap-2">
+    @for (slide of slides; track i; let i = $index) {
+      <span
+        (click)="goToSlide(i)"
+        class="w-3 h-3 rounded-full cursor-pointer transition-all"
+        [class.bg-white]="currentIndex() === i"
+        [class.bg-white/40]="currentIndex() !== i"
+      ></span>
+    }
   </div>
 </div>

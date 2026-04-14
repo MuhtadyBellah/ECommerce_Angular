@@ -198,7 +198,7 @@ export class CheckoutComponent {
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
-            this.router.navigate(['/order']);
+            this.router.navigate(['/orders']);
           }
         },
         error: () => {},

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -16,12 +16,13 @@ export class ForgotComponent {
   private readonly formBuild = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   forgotForm!: FormGroup;
 
   readonly isLoading = signal(false);
 
-  readonly isSubmitDisabled = computed(() => this.forgotForm?.invalid || this.isLoading());
+  readonly isSubmitDisabled = computed(() => !this.forgotForm!.invalid || this.isLoading());
 
   private readonly validationMessages: Record<string, Record<string, string>> = {
     email: {
@@ -44,14 +45,17 @@ export class ForgotComponent {
 
     this.isLoading.set(true);
 
+    const { email } = this.forgotForm.value;
     this.authService
-      .forgotPassword(this.forgotForm.value)
+      .forgotPassword(email)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
-        next: () => {},
+        next: () => {
+          this.router.navigate(['/password/reset/', email]);
+        },
         error: () => {},
       });
   }

@@ -32,7 +32,8 @@
           @for (brand of brands(); track brand._id) {
             <a
               class="group bg-white rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-xl hover:border-violet-200 transition-all duration-300 hover:-translate-y-1"
-              [routerLink]="['/products?brand=', brand._id]"
+              routerLink="/products"
+              [queryParams]="{ brand: brand._id }"
               ><div
                 class="aspect-square rounded-xl overflow-hidden bg-gray-50 mb-3 p-4 flex items-center justify-center"
               >

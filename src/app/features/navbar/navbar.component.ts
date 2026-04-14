@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { interval } from 'rxjs';
 import { CategoryData } from '../../core/models/category.interface';
@@ -12,7 +12,7 @@ import { WishListService } from '../../core/services/wishList/wish-list.service'
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
   readonly isAuthinticated = this.authService.isAuthenticated;
   readonly isMobileMenuOpen = signal(false);
   readonly isProfileOpen = signal(false);
+  readonly searchTerm = signal<string>('');
 
   cartCount = signal<number>(0);
   favoriteCount = signal<number>(0);
@@ -97,15 +98,10 @@ export class NavbarComponent implements OnInit {
     this.isProfileOpen.set(!this.isProfileOpen());
   }
 
-  onSearchSubmit(event: Event): void {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const searchValue = formData.get('search') as string;
-
-    if (searchValue && searchValue.trim()) {
+  onSearchSubmit(): void {
+    if (this.searchTerm() && this.searchTerm().trim()) {
       this.router.navigate(['/search'], {
-        queryParams: { q: searchValue.trim() },
+        queryParams: { q: this.searchTerm().trim() },
       });
     }
   }

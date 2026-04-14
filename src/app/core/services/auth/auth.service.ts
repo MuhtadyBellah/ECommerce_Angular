@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { Auth, User } from '../../models/auth.interface';
@@ -51,10 +52,13 @@ export class AuthService {
     this._isAuthenticated.set(false);
   }
 
-  setUserData(token: string, userData: any): void {
+  setUserData(token: string): void {
+    debugger;
     localStorage.setItem(environment.userToken, token);
-    localStorage.setItem(environment.userData, JSON.stringify(userData));
-    this._currentUser.set(userData);
+
+    const decoded = jwtDecode(token);
+    localStorage.setItem(environment.userData, JSON.stringify(decoded));
+    this._currentUser.set(decoded as User);
     this._isAuthenticated.set(true);
   }
 

@@ -1,10 +1,14 @@
 <div class="min-h-screen bg-gray-50/50">
-  <app-page-header
-    title="My Account"
-    subtitle="Manage your addresses and account settings"
-    icon="layer-group"
-    [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'My Account' }]"
-  ></app-page-header>
+  <div class="bg-linear-to-br from-primary via-primary to-primary text-white">
+    <div class="container mx-auto px-4 py-10 sm:py-12">
+      <app-page-header
+        title="My Account"
+        subtitle="Manage your addresses and account settings"
+        icon="layer-group"
+        [breadcrumbItems]="[{ label: 'Home', link: '/' }, { label: 'My Account' }]"
+      ></app-page-header>
+    </div>
+  </div>
 
   <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -16,10 +20,21 @@
           <ul class="p-2">
             <li>
               <a
-                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group"
+                [ngClass]="
+                  isMyAddressTab()
+                    ? ' bg-primary text-white'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                "
                 routerLink="/profile/addresses"
+                (click)="isMyAddressTab.set(true)"
                 ><div
-                  class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors bg-gray-100 text-gray-500 group-hover:bg-gray-200"
+                  class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
+                  [ngClass]="
+                    isMyAddressTab()
+                      ? ' bg-primary text-white'
+                      : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'
+                  "
                 >
                   <svg
                     data-prefix="fas"
@@ -39,7 +54,8 @@
                 ><svg
                   data-prefix="fas"
                   data-icon="chevron-right"
-                  class="svg-inline--fa fa-chevron-right text-xs transition-transform text-gray-400"
+                  class="svg-inline--fa fa-chevron-right text-xs transition-transform"
+                  [ngClass]="isMyAddressTab() ? ' text-primary' : 'text-gray-400'"
                   role="img"
                   viewBox="0 0 320 512"
                   aria-hidden="true"
@@ -52,10 +68,21 @@
             </li>
             <li>
               <a
-                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group bg-primary-50 text-primary-700"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group"
+                [ngClass]="
+                  !isMyAddressTab()
+                    ? ' bg-primary text-white'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                "
                 routerLink="/profile/settings"
+                (click)="isMyAddressTab.set(false)"
                 ><div
-                  class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors bg-primary-500 text-white"
+                  class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
+                  [ngClass]="
+                    !isMyAddressTab()
+                      ? ' bg-primary text-white'
+                      : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'
+                  "
                 >
                   <svg
                     data-prefix="fas"
@@ -75,7 +102,8 @@
                 ><svg
                   data-prefix="fas"
                   data-icon="chevron-right"
-                  class="svg-inline--fa fa-chevron-right text-xs transition-transform text-primary-500"
+                  class="svg-inline--fa fa-chevron-right text-xs transition-transform"
+                  [ngClass]="!isMyAddressTab() ? ' text-primary' : 'text-gray-400'"
                   role="img"
                   viewBox="0 0 320 512"
                   aria-hidden="true"

@@ -12,6 +12,7 @@ import {
 import { environment } from '../../../environments/environment.development';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
+import { changPasswordRequest } from './../../core/models/request.interface';
 
 @Component({
   selector: 'app-chang-password',
@@ -109,9 +110,14 @@ export class ChangPasswordComponent implements OnInit {
       return;
     }
 
-    const { rePassword, ...data } = this.changePasswordForm.value;
+    const changPasswordRequest: changPasswordRequest = {
+      currentPassword: this.changePasswordForm.value.password,
+      password: this.changePasswordForm.value.newPassword,
+      rePassword: this.changePasswordForm.value.rePassword,
+    };
+
     this.authService
-      .putChangePassword(data)
+      .putChangePassword(changPasswordRequest)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {},

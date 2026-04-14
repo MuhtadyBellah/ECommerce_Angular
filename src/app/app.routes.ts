@@ -62,6 +62,12 @@ export const routes: Routes = [
           import('./core/auth/components/reset/reset.component').then((m) => m.ResetComponent),
         title: 'Reset Password',
       },
+      {
+        path: 'reset/:email',
+        loadComponent: () =>
+          import('./core/auth/components/reset/reset.component').then((m) => m.ResetComponent),
+        title: 'Reset Password',
+      },
     ],
   },
   {
@@ -84,6 +90,19 @@ export const routes: Routes = [
         title: 'Product',
       },
       {
+        path: 'products:id',
+        component: ProductComponent,
+        title: 'Product',
+      },
+      {
+        path: 'products/:id',
+        loadComponent: () =>
+          import('./features/product-details/product-details.component').then(
+            (m) => m.ProductDetailsComponent,
+          ),
+        title: 'Product Details',
+      },
+      {
         path: 'search',
         loadComponent: () =>
           import('./features/product-search/product-search.component').then(
@@ -98,14 +117,6 @@ export const routes: Routes = [
             (m) => m.ProductSearchComponent,
           ),
         title: 'Product Search',
-      },
-      {
-        path: 'products/:id',
-        loadComponent: () =>
-          import('./features/product-details/product-details.component').then(
-            (m) => m.ProductDetailsComponent,
-          ),
-        title: 'Product Details',
       },
       {
         path: 'brands',

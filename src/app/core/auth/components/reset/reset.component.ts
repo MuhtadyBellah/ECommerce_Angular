@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-reset',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './reset.component.html',
   styleUrl: './reset.component.css',
 })
@@ -15,8 +16,7 @@ export class ResetComponent {
   private readonly formBuild = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
-
-  readonly currentUser = this.authService.currentUser;
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   resetForm!: FormGroup;
 
@@ -38,10 +38,12 @@ export class ResetComponent {
   }
 
   resendCode(): void {
+    debugger;
     this.isLoading.set(true);
 
+    const email = this.activatedRoute.snapshot.paramMap.get('email');
     this.authService
-      .forgotPassword(this.currentUser()?.email || '')
+      .forgotPassword(email || '')
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),

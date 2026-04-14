@@ -45,7 +45,6 @@ export class ProductComponent implements OnInit {
   selectedSubcategory = signal<string>('');
   selectedCategory = signal<string>('');
   selectedBrand = signal<string>('');
-  priceRange = signal<[number, number]>([0, 5000]);
   selectedSearch = signal<string>('');
   favorites = signal<Set<string>>(new Set());
 
@@ -120,15 +119,6 @@ export class ProductComponent implements OnInit {
         this.selectedSearch.set(search);
       }
 
-      // Handle price range
-      if (priceMin) {
-        this.priceRange.set([parseInt(priceMin), this.priceRange()[1]]);
-      }
-
-      if (priceMax) {
-        this.priceRange.set([this.priceRange()[0], parseInt(priceMax)]);
-      }
-
       this.loadProducts();
     });
   }
@@ -153,14 +143,6 @@ export class ProductComponent implements OnInit {
 
     if (this.selectedSearch()) {
       queryParams.q = this.selectedSearch();
-    }
-
-    if (this.priceRange()[0] > 0) {
-      queryParams.minPrice = this.priceRange()[0];
-    }
-
-    if (this.priceRange()[1] < 5000) {
-      queryParams.maxPrice = this.priceRange()[1];
     }
 
     this.productService
@@ -245,6 +227,15 @@ export class ProductComponent implements OnInit {
   }
 
   retry(): void {
+    this.loadProducts();
+  }
+
+  clearAllFilters(): void {
+    this.selectedCategory.set('');
+    this.selectedSubcategory.set('');
+    this.selectedBrand.set('');
+    this.selectedSearch.set('');
+    this.selectedSort.set('featured');
     this.loadProducts();
   }
 }
